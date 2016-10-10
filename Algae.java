@@ -15,4 +15,6 @@ public class Algae extends TestCritter {
 	}
 	
 	// test
+	
+	// test 2
 }
