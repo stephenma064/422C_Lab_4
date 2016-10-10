@@ -14,7 +14,4 @@ public class Algae extends TestCritter {
 		setEnergy(getEnergy() + Params.photosynthesis_energy_amount);
 	}
 	
-	// test
-	
-	// test 2
 }

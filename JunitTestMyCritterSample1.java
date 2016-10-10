@@ -1,15 +1,10 @@
 package assignment4;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import assignment4.Critter.TestCritter;
-import java.awt.Point;
+import org.junit.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 public class JunitTestMyCritterSample1 {
 
 	private static final boolean DEBUG = false;
@@ -67,32 +62,32 @@ public class JunitTestMyCritterSample1 {
 		assertEquals(m2.getY_coord(), y-1);
 	}
 	
-	@Test
+	//@Test
 	/**
 	 * 3.
 	 * num Critters created at 1 location.  Call WorldTimeStep once.  Ensure that all but
 	 * 1 Critter is dead at the end of 1 step.
 	 * This test uses methods that student solutions may not have.  It illustrates 
 	 */
-	public void testFightsWithoutRun() {
-		int x = 0; int y = 0;
-		Point p = new Point(x, y);
-		int num = 10;
-		for (int i = 0; i < num; i++) {
-			MyCritter5 c = new MyCritter5();
-			c.init();							// initialize critter.
-			c.setX_coord(x);
-			c.setY_coord(y);
-			TestCritter.getPopulation().add(c);
-			c.addToMap();
-		}
-		assertEquals(num, TestCritter.getPop().get(p).size(), num);
-		if (DEBUG) System.out.println(TestCritter.getPop());
-		Critter.worldTimeStep();
-		if (DEBUG) {
-			System.out.println(TestCritter.getPop());	
-			Critter.displayWorld();
-		}
-		assertEquals(1, TestCritter.getPop().get(p).size());
-	}
+//	public void testFightsWithoutRun() {
+//		int x = 0; int y = 0;
+//		Point p = new Point(x, y);
+//		int num = 10;
+//		for (int i = 0; i < num; i++) {
+//			MyCritter5 c = new MyCritter5();
+//			c.init();							// initialize critter.
+//			c.setX_coord(x);
+//			c.setY_coord(y);
+//			TestCritter.getPopulation().add(c);
+//			c.addToMap();
+//		}
+//		assertEquals(num, TestCritter.getPop().get(p).size(), num);
+//		if (DEBUG) System.out.println(TestCritter.getPop());
+//		Critter.worldTimeStep();
+//		if (DEBUG) {
+//			System.out.println(TestCritter.getPop());
+//			Critter.displayWorld();
+//		}
+//		assertEquals(1, TestCritter.getPop().get(p).size());
+//	}
 }
