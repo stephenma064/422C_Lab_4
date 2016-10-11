@@ -12,7 +12,9 @@
  */
 package assignment4;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
@@ -57,12 +59,14 @@ public abstract class Critter {
 
     /**
      * This method is called within critters and moves the critter one spot
+     * it also updates the energy
      *
      * @param direction the direction in which to move the critter. takes values
      *                  [0, 7] and moves it in that direction. 0 is to the right 2
      *                  is up 4 is to the left etc...
      */
     protected final void walk(int direction) {
+        // This block modifies the x axis
         if (direction == 0 || direction == 1 || direction == 7) {
             x_coord = (x_coord + 1) % Params.world_width;
         } else if (direction == 3 || direction == 4 || direction == 5) {
@@ -71,7 +75,7 @@ public abstract class Critter {
                 x_coord += Params.world_width;
             }
         }
-
+        // This block modifies the y axis
         if (direction == 5 || direction == 6 || direction == 7) {
             y_coord = (y_coord + 1) % Params.world_height;
         } else if (direction == 1 || direction == 2 || direction == 3) {
@@ -80,6 +84,7 @@ public abstract class Critter {
                 y_coord += Params.world_height;
             }
         }
+        // update the energy
         energy -= Params.walk_energy_cost;
     }
 
@@ -219,10 +224,78 @@ public abstract class Critter {
      * This method is simulates one step for every critter in the world of our critters
      */
     public static void worldTimeStep() {
+        // Run the time step on the whole population
         for (Critter c : population) {
             c.doTimeStep();
         }
+        Set<Critter> temp = new HashSet<Critter>();
+        /*
+        This next block goes through the whole population, finds conflicts, and resolves them
+         */
+        for (int i = 0; i < population.size(); i++) {
+            for (int j = i + 1; j < population.size(); j++) {
+                if (sameSquare(population.get(i), population.get(j))) {
+                    temp.add(population.get(i));
+                    temp.add(population.get(j));
+                }
+            }
+            if (temp.size() != 0) {
+                encounter(temp);
+                temp.clear();
+            }
+        }
     }
+
+    /**
+     * Checks if two critters a and b occupy the same spot
+     *
+     * @param a first critter
+     * @param b second critter
+     * @return true if in the same square, false if not
+     */
+    public static boolean sameSquare(Critter a, Critter b) {
+        return a.x_coord == b.x_coord && a.y_coord == b.y_coord;
+    }
+
+    /**
+     * given a set of critters resolve their encounters.
+     * critters can cointain more than one critter when resolving
+     *
+     * @param critters a set of critters that are in the same square
+     *                 critters will always have more than 2 Critters
+     * @return a set of critters that are failures
+     */
+    public static void encounter(Set<Critter> critters) {
+        Object[] array = critters.toArray();
+        Critter[] crit = new Critter[critters.size()];
+        /*
+        crit is an array of all the critters we are trying to resolve
+        we can modify the values of crit since they are pass by value?
+         */
+        for (int i = 0; i < critters.size(); i++) {
+            crit[i] = (Critter) array[i];
+        }
+        // the index of the winner , this is for when there are multiple conflicts
+        int winner = 0;
+        for (int i = 1; i < array.length; i++) {
+            int aFightNum = 0, bFightNum = 0;
+            if (crit[winner].fight(crit[i].toString())) {
+                aFightNum = getRandomInt(crit[winner].energy);
+            }
+            if (crit[i].fight(crit[winner].toString())) {
+                bFightNum = getRandomInt(crit[i].energy);
+            }
+            if (aFightNum >= bFightNum) {
+                crit[winner].energy += crit[i].energy / 2;
+                crit[i].energy = 0;
+            } else {
+                crit[i].energy += crit[winner].energy / 2;
+                crit[winner].energy = 0;
+                winner = i;
+            }
+        }
+    }
+
 
     public static void displayWorld() {
     }
