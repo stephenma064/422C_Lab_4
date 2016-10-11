@@ -56,6 +56,24 @@ public abstract class Critter {
     private int y_coord;
 
     protected final void walk(int direction) {
+        if (direction == 0 || direction == 1 || direction == 7) {
+            x_coord = (x_coord + 1) % Params.world_width;
+        } else if (direction == 3 || direction == 4 || direction == 5) {
+            x_coord -= 1;
+            if (x_coord < 0) {
+                x_coord += Params.world_width;
+            }
+        }
+
+        if (direction == 5 || direction == 6 || direction == 7) {
+            y_coord = (y_coord + 1) % Params.world_height;
+        } else if (direction == 1 || direction == 2 || direction == 3) {
+            y_coord -= 1;
+            if (y_coord < 0) {
+                y_coord += Params.world_height;
+            }
+        }
+        energy -= Params.walk_energy_cost;
     }
 
     protected final void run(int direction) {
