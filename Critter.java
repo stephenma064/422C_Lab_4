@@ -225,8 +225,10 @@ public abstract class Critter {
      */
     public static void worldTimeStep() {
         // Run the time step on the whole population
+        // Don't forget the rest energy cost
         for (Critter c : population) {
             c.doTimeStep();
+            c.energy -= Params.rest_energy_cost;
         }
         Set<Critter> temp = new HashSet<Critter>();
         /*
@@ -242,6 +244,17 @@ public abstract class Critter {
             if (temp.size() != 0) {
                 encounter(temp);
                 temp.clear();
+            }
+        }
+        // add the babies
+        for (Critter b : babies) {
+            population.add(b);
+        }
+        // cull the dead
+        for (int i = 0; i < population.size(); i++) {
+            if (population.get(i).energy <= 0) {
+                population.remove(i);
+                i--;
             }
         }
     }
