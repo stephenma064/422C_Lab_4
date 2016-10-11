@@ -24,6 +24,7 @@ public abstract class Critter {
 	private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
+    private static List<Critter> alive = new java.util.ArrayList<Critter>();
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -73,6 +74,17 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		Critter critter;
+		try {
+			Class c = Class.forName("assignment4."+critter_class_name);
+			critter = (Critter) c.newInstance();
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		critter.x_coord = getRandomInt(Params.world_width);
+        critter.y_coord = getRandomInt(Params.world_height);
+        critter.energy = Params.start_energy;
+        alive.add(critter);
 	}
 	
 	/**

@@ -70,7 +70,11 @@ public class Main {
         /* Write your code below. */
         
         System.out.println("GLHF");
-        
+        try {
+            Critter.makeCritter("Algae");
+        } catch (InvalidCritterException e) {
+            System.out.println("lol");
+        }
         /* Write your code above */
         System.out.flush();
 
