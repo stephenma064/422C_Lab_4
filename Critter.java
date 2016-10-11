@@ -55,6 +55,13 @@ public abstract class Critter {
     private int x_coord;
     private int y_coord;
 
+    /**
+     * This method is called within critters and moves the critter one spot
+     *
+     * @param direction the direction in which to move the critter. takes values
+     *                  [0, 7] and moves it in that direction. 0 is to the right 2
+     *                  is up 4 is to the left etc...
+     */
     protected final void walk(int direction) {
         if (direction == 0 || direction == 1 || direction == 7) {
             x_coord = (x_coord + 1) % Params.world_width;

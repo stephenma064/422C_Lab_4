@@ -68,14 +68,19 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        
-        System.out.println("GLHF");
-        try {
-            Critter.makeCritter("Algae");
-        } catch (InvalidCritterException e) {
-            System.out.println("lol");
+        while (true) {
+            System.out.print("critters>");
+            String input = kb.nextLine().trim();
+            if (input.equals("quit")) {
+                System.exit(0);
+            }
+            else if (input.equals("show")) {
+                Critter.displayWorld();
+            } else if ("step") {
+                Critter.worldTimeStep();
+            }
         }
-        /* Write your code above */
+       /* Write your code above */
         System.out.flush();
 
     }
