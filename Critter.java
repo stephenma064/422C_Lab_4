@@ -309,7 +309,62 @@ public abstract class Critter {
         }
     }
 
-
+    /**
+     * Print the 2D world.
+     */
     public static void displayWorld() {
+    	Critter.printTopBotBorder();
+    	
+    	// Print each row, include critters    	
+    	for (int currentRow = 0; currentRow < Params.world_height; currentRow++) {
+    		System.out.print("|");
+	    	for (int currentCol = 0; currentCol < Params.world_width; currentCol++) {    		
+	    		// Find if a Critter is occupying the current row and col
+	    		Critter c;
+	    		c = Critter.containsCritter(currentRow, currentCol);
+				if (c != null) {
+					System.out.print(c.toString());
+				}
+				else {
+					System.out.print("*");	    		
+				}
+	    	}
+	    	System.out.println("|");
+    	}
+    	Critter.printTopBotBorder();    	  	
+    }
+    
+    /**
+     * Print the top / bottom border
+     */
+    private static void printTopBotBorder() {
+    	// Print the bottom border
+    	for (int i = 0; i < Params.world_width + 2; i++) {
+    		if (i == 0 || i == Params.world_width + 1) {
+    			System.out.print("+");
+    		}
+    		else {
+    			System.out.print("-");
+    		}
+    	}
+    	System.out.println();
+    }
+    
+    /**
+     * Check if a particular space contains a critter
+     * @param row The row to check
+     * @param col The col to check
+     * @return null if no critter, Critter object is found
+     */
+    private static Critter containsCritter(int row, int col) {
+    	int j = 0;
+    	while (j < Critter.population.size()) {
+			Critter c = Critter.population.get(j);
+			if (c.x_coord == row && c.y_coord == col) {
+				return c;
+			}
+			j += 1;
+		}
+    	return null;
     }
 }
