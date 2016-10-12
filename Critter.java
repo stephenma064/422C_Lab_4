@@ -117,7 +117,7 @@ public abstract class Critter {
     public static void makeCritter(String critter_class_name) throws InvalidCritterException {
         Critter critter;
         try {
-            Class c = Class.forName("assignment4." + critter_class_name);
+            Class c = Class.forName(myPackage +"."+ critter_class_name);
             critter = (Critter) c.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new InvalidCritterException(critter_class_name);
@@ -232,7 +232,6 @@ public abstract class Critter {
         // Don't forget the rest energy cost
         for (Critter c : population) {
             c.doTimeStep();
-            c.energy -= Params.rest_energy_cost;
         }
         Set<Critter> temp = new HashSet<Critter>();
         /*
@@ -250,10 +249,12 @@ public abstract class Critter {
                 temp.clear();
             }
         }
-        // add the babies
-        for (Critter b : babies) {
-            population.add(b);
+        // apply rest energy cost
+        for (Critter c: population) {
+            c.energy -= Params.rest_energy_cost;
         }
+        // add the babies
+        population.addAll(babies);
         // cull the dead
         for (int i = 0; i < population.size(); i++) {
             if (population.get(i).energy <= 0) {
