@@ -58,38 +58,42 @@ public abstract class Critter {
     private int y_coord;
 
     /**
-     * This method is called within critters and moves the critter one spot
-     * it also updates the energy
+     * This is the main handler for the movement functions walk/run. it will implement the
+     * movement for them.
      *
-     * @param direction the direction in which to move the critter. takes values
-     *                  [0, 7] and moves it in that direction. 0 is to the right 2
-     *                  is up 4 is to the left etc...
+     * @param direction the direction to move
+     * @param cost      the energy cost of moving
+     * @param amount    the distance to move
      */
-    protected final void walk(int direction) {
+    private void movement(int direction, int cost, int amount) {
         // This block modifies the x axis
         if (direction == 0 || direction == 1 || direction == 7) {
-            x_coord = (x_coord + 1) % Params.world_width;
+            x_coord = (x_coord + amount) % Params.world_width;
         } else if (direction == 3 || direction == 4 || direction == 5) {
-            x_coord -= 1;
+            x_coord -= amount;
             if (x_coord < 0) {
                 x_coord += Params.world_width;
             }
         }
         // This block modifies the y axis
         if (direction == 5 || direction == 6 || direction == 7) {
-            y_coord = (y_coord + 1) % Params.world_height;
+            y_coord = (y_coord + amount) % Params.world_height;
         } else if (direction == 1 || direction == 2 || direction == 3) {
-            y_coord -= 1;
+            y_coord -= amount;
             if (y_coord < 0) {
                 y_coord += Params.world_height;
             }
         }
         // update the energy
-        energy -= Params.walk_energy_cost;
+        energy -= cost;
+    }
+
+    protected final void walk(int direction) {
+        movement(direction, Params.walk_energy_cost, 1);
     }
 
     protected final void run(int direction) {
-
+        movement(direction, Params.run_energy_cost, 2);
     }
 
     protected final void reproduce(Critter offspring, int direction) {
@@ -113,7 +117,7 @@ public abstract class Critter {
     public static void makeCritter(String critter_class_name) throws InvalidCritterException {
         Critter critter;
         try {
-            Class c = Class.forName("assignment4." + critter_class_name);
+            Class c = Class.forName(myPackage +"."+ critter_class_name);
             critter = (Critter) c.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new InvalidCritterException(critter_class_name);
@@ -228,7 +232,6 @@ public abstract class Critter {
         // Don't forget the rest energy cost
         for (Critter c : population) {
             c.doTimeStep();
-            c.energy -= Params.rest_energy_cost;
         }
         Set<Critter> temp = new HashSet<Critter>();
         /*
@@ -246,10 +249,12 @@ public abstract class Critter {
                 temp.clear();
             }
         }
-        // add the babies
-        for (Critter b : babies) {
-            population.add(b);
+        // apply rest energy cost
+        for (Critter c: population) {
+            c.energy -= Params.rest_energy_cost;
         }
+        // add the babies
+        population.addAll(babies);
         // cull the dead
         for (int i = 0; i < population.size(); i++) {
             if (population.get(i).energy <= 0) {

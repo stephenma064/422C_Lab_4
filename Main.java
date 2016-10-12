@@ -71,9 +71,9 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         try {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
                 Critter.makeCritter("Algae");
-                if (i < 25) {
+                if (i < 5) {
                     Critter.makeCritter("Craig");
                 }
             }
