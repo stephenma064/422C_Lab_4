@@ -100,14 +100,14 @@ public abstract class Critter {
     public abstract boolean fight(String oponent);
 
     /**
-     * create and initialize a Critter subclass.
+     * Create and initialize a Critter subclass.
      * critter_class_name must be the unqualified name of a concrete subclass of Critter, if not,
      * an InvalidCritterException must be thrown.
      * (Java weirdness: Exception throwing does not work properly if the parameter has lower-case instead of
      * upper. For example, if craig is supplied instead of Craig, an error is thrown instead of
      * an Exception.)
      *
-     * @param critter_class_name
+     * @param critter_class_name Class name of the critter
      * @throws InvalidCritterException
      */
     public static void makeCritter(String critter_class_name) throws InvalidCritterException {
@@ -271,10 +271,10 @@ public abstract class Critter {
     }
 
     /**
-     * given a set of critters resolve their encounters.
-     * critters can cointain more than one critter when resolving
+     * Given a set of critters resolve their encounters.
+     * Critters can contain more than one critter when resolving
      *
-     * @param critters a set of critters that are in the same square
+     * @param critters A set of critters that are in the same square
      *                 critters will always have more than 2 Critters
      * @return a set of critters that are failures
      */
