@@ -253,6 +253,14 @@ public abstract class Critter {
         for (Critter c: population) {
             c.energy -= Params.rest_energy_cost;
         }
+        // add algae
+        try {
+        for (int i = 0; i < Params.refresh_algae_count; i++) {
+            makeCritter("Algae");
+        } }
+        catch (InvalidCritterException e) {
+            System.out.println("you done goofed");
+        }
         // add the babies
         population.addAll(babies);
         // cull the dead
