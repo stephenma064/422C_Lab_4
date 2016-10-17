@@ -57,12 +57,12 @@ public abstract class Critter {
 
     /**
      * Given a direction, and a starting point, returns coordinates of
-     * the new plac eyou want to be
+     * the new place you want to be
      *
      * @param direction direction you want to go
      * @param amount    the amount to move
-     * @param x         the iniatil x value
-     * @param y         the inial y value
+     * @param x         the initial x value
+     * @param y         the initial y value
      * @return an array where the first value is the new x and the second value
      * is the new y
      */
@@ -130,12 +130,8 @@ public abstract class Critter {
     	if (this.energy < Params.min_reproduce_energy || this.energy <= 0) return;
     	offspring.energy = this.energy / 2;
     	this.energy = abs(this.energy / 2);
-    	offspring.x_coord = (offspring.x_coord + 1) % Params.world_width;	// TODO: randomize
-    	offspring.y_coord = this.y_coord;
-    	
-    	
-    	
-    	
+    	offspring.x_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[0];
+    	offspring.y_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[1];	
     }
 
     public abstract void doTimeStep();
