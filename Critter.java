@@ -57,6 +57,44 @@ public abstract class Critter {
     private int x_coord;
     private int y_coord;
 
+    private boolean hasMoved = false;
+
+    /**
+     * Given a direction, and a starting point, returns coordinates of
+     * the new plac eyou want to be
+     *
+     * @param direction direction you want to go
+     * @param amount    the amount to move
+     * @param x         the iniatil x value
+     * @param y         the inial y value
+     * @return an array where the first value is the new x and the second value
+     * is the new y
+     */
+    private int[] findDirection(int direction, int amount, int x, int y) {
+        int[] coordinates = {0, 0};
+        // This block modifies the x axis
+        if (direction == 0 || direction == 1 || direction == 7) {
+            x = (x + amount) % Params.world_width;
+        } else if (direction == 3 || direction == 4 || direction == 5) {
+            x -= amount;
+            if (x < 0) {
+                x += Params.world_width;
+            }
+        }
+        // This block modifies the y axis
+        if (direction == 5 || direction == 6 || direction == 7) {
+            y = (y + amount) % Params.world_height;
+        } else if (direction == 1 || direction == 2 || direction == 3) {
+            y -= amount;
+            if (y < 0) {
+                y += Params.world_height;
+            }
+        }
+        coordinates[0] = x;
+        coordinates[1] = y;
+        return coordinates;
+    }
+
     /**
      * This is the main handler for the movement functions walk/run. it will implement the
      * movement for them.
@@ -66,34 +104,25 @@ public abstract class Critter {
      * @param amount    the distance to move
      */
     private void movement(int direction, int cost, int amount) {
-        // This block modifies the x axis
-        if (direction == 0 || direction == 1 || direction == 7) {
-            x_coord = (x_coord + amount) % Params.world_width;
-        } else if (direction == 3 || direction == 4 || direction == 5) {
-            x_coord -= amount;
-            if (x_coord < 0) {
-                x_coord += Params.world_width;
-            }
-        }
-        // This block modifies the y axis
-        if (direction == 5 || direction == 6 || direction == 7) {
-            y_coord = (y_coord + amount) % Params.world_height;
-        } else if (direction == 1 || direction == 2 || direction == 3) {
-            y_coord -= amount;
-            if (y_coord < 0) {
-                y_coord += Params.world_height;
-            }
-        }
         // update the energy
         energy -= cost;
+        // check if we already moved
+        if (hasMoved) {
+            return;
+        }
+        int[] coords = findDirection(direction, amount, x_coord, y_coord);
+        x_coord = coords[0];
+        y_coord = coords[1];
     }
 
     protected final void walk(int direction) {
         movement(direction, Params.walk_energy_cost, 1);
+        hasMoved = true;
     }
 
     protected final void run(int direction) {
         movement(direction, Params.run_energy_cost, 2);
+        hasMoved = true;
     }
 
     protected final void reproduce(Critter offspring, int direction) {
@@ -117,7 +146,7 @@ public abstract class Critter {
     public static void makeCritter(String critter_class_name) throws InvalidCritterException {
         Critter critter;
         try {
-            Class c = Class.forName(myPackage +"."+ critter_class_name);
+            Class c = Class.forName(myPackage + "." + critter_class_name);
             critter = (Critter) c.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new InvalidCritterException(critter_class_name);
@@ -250,15 +279,15 @@ public abstract class Critter {
             }
         }
         // apply rest energy cost
-        for (Critter c: population) {
+        for (Critter c : population) {
             c.energy -= Params.rest_energy_cost;
         }
         // add algae
         try {
-        for (int i = 0; i < Params.refresh_algae_count; i++) {
-            makeCritter("Algae");
-        } }
-        catch (InvalidCritterException e) {
+            for (int i = 0; i < Params.refresh_algae_count; i++) {
+                makeCritter("Algae");
+            }
+        } catch (InvalidCritterException e) {
             System.out.println("you done goofed");
         }
         // add the babies
@@ -269,6 +298,10 @@ public abstract class Critter {
                 population.remove(i);
                 i--;
             }
+        }
+        // make it okay to move again
+        for (Critter c : population) {
+            c.hasMoved = false;
         }
     }
 
@@ -311,14 +344,17 @@ public abstract class Critter {
             if (crit[i].fight(crit[winner].toString())) {
                 bFightNum = getRandomInt(crit[i].energy);
             }
-            if (aFightNum >= bFightNum) {
-                crit[winner].energy += crit[i].energy / 2;
-                crit[i].energy = 0;
-            } else {
-                crit[i].energy += crit[winner].energy / 2;
-                crit[winner].energy = 0;
-                winner = i;
+            if (sameSquare(crit[winner], crit[i])) {
+                if (aFightNum >= bFightNum) {
+                    crit[winner].energy += crit[i].energy / 2;
+                    crit[i].energy = 0;
+                } else {
+                    crit[i].energy += crit[winner].energy / 2;
+                    crit[winner].energy = 0;
+                    winner = i;
+                }
             }
+
         }
     }
 
@@ -326,58 +362,57 @@ public abstract class Critter {
      * Print the 2D world.
      */
     public static void displayWorld() {
-    	Critter.printTopBotBorder();
-    	
-    	// Print each row, include critters    	
-    	for (int currentRow = 0; currentRow < Params.world_height; currentRow++) {
-    		System.out.print("|");
-	    	for (int currentCol = 0; currentCol < Params.world_width; currentCol++) {    		
-	    		// Find if a Critter is occupying the current row and col
-	    		Critter c;
-	    		c = Critter.containsCritter(currentRow, currentCol);
-				if (c != null) {
-					System.out.print(c.toString());
-				}
-				else {
-					System.out.print("*");	    		
-				}
-	    	}
-	    	System.out.println("|");
-    	}
-    	Critter.printTopBotBorder();    	  	
+        Critter.printTopBotBorder();
+
+        // Print each row, include critters
+        for (int currentRow = 0; currentRow < Params.world_height; currentRow++) {
+            System.out.print("|");
+            for (int currentCol = 0; currentCol < Params.world_width; currentCol++) {
+                // Find if a Critter is occupying the current row and col
+                Critter c;
+                c = Critter.containsCritter(currentRow, currentCol);
+                if (c != null) {
+                    System.out.print(c.toString());
+                } else {
+                    System.out.print("*");
+                }
+            }
+            System.out.println("|");
+        }
+        Critter.printTopBotBorder();
     }
-    
+
     /**
      * Print the top / bottom border
      */
     private static void printTopBotBorder() {
-    	// Print the bottom border
-    	for (int i = 0; i < Params.world_width + 2; i++) {
-    		if (i == 0 || i == Params.world_width + 1) {
-    			System.out.print("+");
-    		}
-    		else {
-    			System.out.print("-");
-    		}
-    	}
-    	System.out.println();
+        // Print the bottom border
+        for (int i = 0; i < Params.world_width + 2; i++) {
+            if (i == 0 || i == Params.world_width + 1) {
+                System.out.print("+");
+            } else {
+                System.out.print("-");
+            }
+        }
+        System.out.println();
     }
-    
+
     /**
      * Check if a particular space contains a critter
+     *
      * @param row The row to check
      * @param col The col to check
      * @return null if no critter, Critter object is found
      */
     private static Critter containsCritter(int row, int col) {
-    	int j = 0;
-    	while (j < Critter.population.size()) {
-			Critter c = Critter.population.get(j);
-			if (c.x_coord == row && c.y_coord == col) {
-				return c;
-			}
-			j += 1;
-		}
-    	return null;
+        int j = 0;
+        while (j < Critter.population.size()) {
+            Critter c = Critter.population.get(j);
+            if (c.x_coord == row && c.y_coord == col) {
+                return c;
+            }
+            j += 1;
+        }
+        return null;
     }
 }
