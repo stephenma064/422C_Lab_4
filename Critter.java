@@ -1,12 +1,8 @@
 /* CRITTERS Critter.java
  * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * Stephen Ma szm99
+ * Eric Su es25725
+ * 
  * Slip days used: <0>
  * Fall 2016
  */
@@ -20,7 +16,7 @@ import java.util.Set;
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter
  */
-
+import static java.lang.Math.abs;
 
 public abstract class Critter {
     private static String myPackage;
@@ -95,8 +91,22 @@ public abstract class Critter {
     protected final void run(int direction) {
         movement(direction, Params.run_energy_cost, 2);
     }
-
+    
+    /**
+     * Create a new critter from a parent critter.
+     * @param offspring Critter offspring to initialize
+     * @param direction Direction that the baby critter will take
+     */
     protected final void reproduce(Critter offspring, int direction) {
+    	if (this.energy < Params.min_reproduce_energy || this.energy <= 0) return;
+    	offspring.energy = this.energy / 2;
+    	this.energy = abs(this.energy / 2);
+    	offspring.x_coord = (offspring.x_coord + 1) % Params.world_width;	// TODO: randomize
+    	offspring.y_coord = this.y_coord;
+    	
+    	
+    	
+    	
     }
 
     public abstract void doTimeStep();
