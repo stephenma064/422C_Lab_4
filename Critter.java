@@ -111,6 +111,17 @@ public abstract class Critter {
             return;
         }
         int[] coords = findDirection(direction, amount, x_coord, y_coord);
+        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        for (StackTraceElement s : trace) {
+            if (s.getMethodName().equals("fight")) {
+                Critter temp = containsCritter(coords[0], coords[1]);
+                if (temp != null) {
+                    if (temp.getEnergy() != 0) {
+                        return;
+                    }
+                }
+            }
+        }
         x_coord = coords[0];
         y_coord = coords[1];
     }
