@@ -131,18 +131,19 @@ public abstract class Critter {
         movement(direction, Params.run_energy_cost, 2);
         hasMoved = true;
     }
-    
+
     /**
      * Create a new critter from a parent critter.
+     *
      * @param offspring Critter offspring to initialize
      * @param direction Direction that the baby critter will take
      */
     protected final void reproduce(Critter offspring, int direction) {
-    	if (this.energy < Params.min_reproduce_energy || this.energy <= 0) return;
-    	offspring.energy = this.energy / 2;
-    	this.energy = abs(this.energy / 2);
-    	offspring.x_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[0];
-    	offspring.y_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[1];	
+        if (this.energy < Params.min_reproduce_energy || this.energy <= 0) return;
+        offspring.energy = this.energy / 2;
+        this.energy = abs(this.energy / 2);
+        offspring.x_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[0];
+        offspring.y_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[1];
     }
 
     public abstract void doTimeStep();
