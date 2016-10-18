@@ -89,6 +89,13 @@ public class Main {
                 Critter.displayWorld();
             } else if (input.equals("step")) {
                 Critter.worldTimeStep();
+            } else if (input.equals("seed")) {
+            	Long seed = new Long(input.split("")[1]);          	
+            	Critter.setSeed(seed);
+            } else if (input.equals("make")) {
+            	Critter.makeCritter(input.split("")[1]);
+            } else if (input.equals("stats")){
+            	Critter.getInstances(input.split("")[1]);
             }
         }
        /* Write your code above */
