@@ -12,8 +12,14 @@
  */
 package assignment4; // cannot be in default package
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Scanner;
-import java.io.*;
 
 
 /*
@@ -70,32 +76,45 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        try {
-            for (int i = 0; i < 10; i++) {
-                Critter.makeCritter("Algae");
-                if (i < 5) {
-                    Critter.makeCritter("Craig");
-                }
-            }
-        } catch (InvalidCritterException e) {
-            System.out.println("nope");
-        }
+        label:
         while (true) {
             System.out.print("critters>");
             String input = kb.nextLine().trim();
-            if (input.equals("quit")) {
-                break;
-            } else if (input.equals("show")) {
-                Critter.displayWorld();
-            } else if (input.equals("step")) {
-                Critter.worldTimeStep();
-            } else if (input.equals("seed")) {
-            	Long seed = new Long(input.split("")[1]);          	
-            	Critter.setSeed(seed);
-            } else if (input.equals("make")) {
-            	Critter.makeCritter(input.split("")[1]);
-            } else if (input.equals("stats")){
-            	Critter.getInstances(input.split("")[1]);
+            String[] inputArray = input.split(" ");
+            try {
+                String command = inputArray[0];
+                switch (command) {
+                    case "quit":
+                        break label;
+                    case "show":
+                        Critter.displayWorld();
+                        break;
+                    case "step":
+                        Critter.worldTimeStep();
+                        break;
+                    case "seed":
+                        Long seed = new Long(inputArray[1]);
+                        Critter.setSeed(seed);
+                        break;
+                    case "make":
+                        for (int i = 0; i < Integer.parseInt(inputArray[2]); i++) {
+                            Critter.makeCritter(inputArray[1]);
+                        }
+                        break;
+                    case "stats":
+                        Class temp = Class.forName(myPackage+"."+inputArray[1]);
+                        Class[] types = {List.class};
+                        List<Critter> list = Critter.getInstances(inputArray[1]);
+                        Method m = temp.getMethod("runStats",types);
+                        m.invoke(null, list);
+//                        temp.newInstance().runStats(list);
+                        break;
+                    default:
+                        System.out.println("invalid command: " + input);
+                        break;
+                }
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException | NumberFormatException | InvalidCritterException | IndexOutOfBoundsException e) {
+                System.out.println("error processing: " + input);
             }
         }
        /* Write your code above */
