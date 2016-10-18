@@ -274,7 +274,7 @@ public abstract class Critter {
     /**
      * This method is simulates one step for every critter in the world of our critters
      */
-    public static void worldTimeStep() {
+    public static void worldTimeStep() throws InvalidCritterException {
         // Run the time step on the whole population
         // Don't forget the rest energy cost
         for (Critter c : population) {
@@ -301,13 +301,13 @@ public abstract class Critter {
             c.energy -= Params.rest_energy_cost;
         }
         // add algae
-        try {
+//        try {
             for (int i = 0; i < Params.refresh_algae_count; i++) {
                 makeCritter("Algae");
             }
-        } catch (InvalidCritterException e) {
-            System.out.println("you done goofed");
-        }
+//        } catch (InvalidCritterException e) {
+//            System.out.println("you done goofed");
+//        }
         // add the babies
         population.addAll(babies);
         // cull the dead

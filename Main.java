@@ -92,7 +92,5 @@ public class Main {
             }
         }
        /* Write your code above */
-        System.out.flush();
-
     }
 }
