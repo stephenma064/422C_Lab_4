@@ -22,11 +22,14 @@ public class DankCritter extends Critter {
 	@Override
 	public void doTimeStep() {
 		walk(this.direction);
-		this.dankLevel += 1;
 		if (this.dankLevel == 420) {
-			this.tipsFedora = true;
+			this.tipsFedora = true;		
+			this.dankLevel *= 0.67;
 			DankCritter dc = new DankCritter();
 			reproduce(dc, Critter.getRandomInt(8));
+		} 
+		else {
+			this.dankLevel += 1;
 		}
 	}
 
