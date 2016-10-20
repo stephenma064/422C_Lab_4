@@ -4,20 +4,20 @@ package assignment4;
  * Created by Stephen on 10/17/2016.
  *
  */
-public class Steve extends Critter{
+public class Critter4 extends Critter{
 
     @Override
     public String toString() {
-        return "$";
+        return "4";
     }
 
     private int dir;
 
-    public Steve() {
+    public Critter4() {
         dir = Critter.getRandomInt(8);
     }
     public boolean fight(String other) {
-        return other.equals("$") || other.equals("A");
+        return other.equals("4") || other.equals("4");
     }
 
     public void doTimeStep() {

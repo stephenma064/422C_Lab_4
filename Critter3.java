@@ -3,10 +3,10 @@ package assignment4;
 /**
  * Created by Stephen on 10/18/2016.
  */
-public class Rock extends Critter{
+public class Critter3 extends Critter{
     @Override
     public String toString() {
-        return "R";
+        return "3";
     }
 
     public boolean fight(String not_used) {
@@ -15,7 +15,7 @@ public class Rock extends Critter{
 
     public void doTimeStep() {
         // erosion
-        Rock rock = new Rock();
+        Critter3 rock = new Critter3();
         reproduce(rock,Critter.getRandomInt(8));
     }
 }
