@@ -67,7 +67,7 @@ public class JunitTestMyCritterSample1 {
 	 * 3.
 	 * num Critters created at 1 location.  Call WorldTimeStep once.  Ensure that all but
 	 * 1 Critter is dead at the end of 1 step.
-	 * This test uses methods that student solutions may not have.  It illustrates 
+	 * This test uses methods that student solutions may not have.  It illustrates
 	 */
 //	public void testFightsWithoutRun() {
 //		int x = 0; int y = 0;
