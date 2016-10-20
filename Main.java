@@ -81,39 +81,58 @@ public class Main {
             System.out.print("critters>");
             String input = kb.nextLine().trim();
             String[] inputArray = input.split(" ");
+            boolean invalidInput = false;
             try {
                 String command = inputArray[0];
                 switch (command) {
                     case "quit":
-                        break label;
+                    	if (inputArray.length != 1) {
+                    		throw new InvalidInputException(input);
+                    	}
+                    	break label;
                     case "show":
-                        Critter.displayWorld();
-                        break;
+                    	if (inputArray.length != 1) {
+                    		throw new InvalidInputException(input);
+                    	}
+                    	Critter.displayWorld();
+                    	break;
                     case "step":
-                        Critter.worldTimeStep();
+                    	if (inputArray.length != 2) {
+                    		throw new InvalidInputException(input);
+                    	}
+                    	Critter.worldTimeStep();
                         break;
                     case "seed":
+                    	if (inputArray.length != 2) {
+                    		throw new InvalidInputException(input);
+                    	}                  	
                         Long seed = new Long(inputArray[1]);
                         Critter.setSeed(seed);
                         break;
                     case "make":
+                    	if (inputArray.length != 3) {
+                    		throw new InvalidInputException(input);
+                    	}
                         for (int i = 0; i < Integer.parseInt(inputArray[2]); i++) {
                             Critter.makeCritter(inputArray[1]);
                         }
                         break;
                     case "stats":
-                        Class temp = Class.forName(myPackage+"."+inputArray[1]);
+                    	if (inputArray.length != 2) {
+                    		throw new InvalidInputException(input);
+                    	}
+                        Class<?> temp = Class.forName(myPackage+"."+inputArray[1]);
                         Class[] types = {List.class};
                         List<Critter> list = Critter.getInstances(inputArray[1]);
                         Method m = temp.getMethod("runStats",types);
                         m.invoke(null, list);
-//                        temp.newInstance().runStats(list);
                         break;
                     default:
                         System.out.println("invalid command: " + input);
                         break;
                 }
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException | NumberFormatException | InvalidCritterException | IndexOutOfBoundsException e) {
+            } catch (InvalidInputException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | 
+            		ClassNotFoundException | NumberFormatException | InvalidCritterException | IndexOutOfBoundsException e) {
                 System.out.println("error processing: " + input);
             }
         }

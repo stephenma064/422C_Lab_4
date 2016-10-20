@@ -142,8 +142,9 @@ public abstract class Critter {
         if (this.energy < Params.min_reproduce_energy || this.energy <= 0) return;
         offspring.energy = this.energy / 2;
         this.energy = abs(this.energy / 2);
-        offspring.x_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[0];
-        offspring.y_coord = findDirection(direction, 1, this.x_coord, this.y_coord)[1];
+        int[] babyDir = findDirection(direction, 1, this.x_coord, this.y_coord);
+        offspring.x_coord = babyDir[0];
+        offspring.y_coord = babyDir[1];
     }
 
     public abstract void doTimeStep();
