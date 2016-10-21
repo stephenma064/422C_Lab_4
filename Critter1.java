@@ -7,7 +7,7 @@ package assignment4;
  * it will reproduce every time step! It has a chance of reproducing either 1 
  * or 2 critters per time step. However popular this critter is, it does not like
  * to fight. 
-
+ *
  * @author ericsu
  *
  */

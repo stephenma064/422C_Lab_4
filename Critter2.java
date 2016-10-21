@@ -9,7 +9,7 @@ package assignment4;
  * dank level, and will set tipsFedora variable to true. However, when 
  * tipsFedora has been set to true, then this critter will never fight. 
  * Like other critters, this critter will also traverse in random directions.
-
+ *
  * @author ericsu
  *
  */
