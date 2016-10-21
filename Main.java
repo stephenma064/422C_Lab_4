@@ -1,13 +1,11 @@
-/* CRITTERS Main.java
+// Main.java
+/** CRITTERS 
  * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
+ * Stephen Ma szm99
+ * Eric Su es25725
+ * 
+ * Stephen Ma Slip days used: <1>
+ * Eric Su Slip days used: <2>
  * Fall 2016
  */
 package assignment4; // cannot be in default package
@@ -156,6 +154,5 @@ public class Main {
                 System.out.println("error processing: " + input);
             }
         }
-       /* Write your code above */
     }
 }

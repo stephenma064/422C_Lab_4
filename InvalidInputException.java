@@ -6,7 +6,7 @@ package assignment4;
  *
  */
 public class InvalidInputException extends Exception {
-	String invalidInput;
+	private String invalidInput;
 	
 	public InvalidInputException(String invalidInput) {
 		this.invalidInput = invalidInput;

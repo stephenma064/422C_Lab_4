@@ -1,3 +1,13 @@
+// Critter3.java
+/** CRITTERS 
+ * EE422C Project 4 submission by
+ * Stephen Ma szm99
+ * Eric Su es25725
+ * 
+ * Stephen Ma Slip days used: <1>
+ * Eric Su Slip days used: <2>
+ * Fall 2016
+ */
 package assignment4;
 
 /**
@@ -12,6 +22,7 @@ package assignment4;
  * Created by Stephen on 10/18/2016.
  */
 public class Critter3 extends Critter{
+	
     @Override
     public String toString() {
         return "3";
@@ -23,7 +34,9 @@ public class Critter3 extends Critter{
 
     public void doTimeStep() {
         // Erosion
-        Critter3 rock = new Critter3();
-        reproduce(rock,Critter.getRandomInt(8));
+        if (this.getEnergy() < 10) {
+	    	Critter3 rock = new Critter3();
+	        reproduce(rock, Critter.getRandomInt(8));
+        }
     }
 }
