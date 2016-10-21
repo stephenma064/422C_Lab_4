@@ -35,7 +35,7 @@ public class Critter1 extends Critter {
 	}
 
 	@Override
-	public boolean fight(String oponent) {
+	public boolean fight(String opponent) {
 		return false;
 	}
 	
