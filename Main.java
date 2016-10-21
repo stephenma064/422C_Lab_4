@@ -119,10 +119,21 @@ public class Main {
                         Critter.setSeed(seed);
                         break;
                     case "make":
-                    	if (inputArray.length != 3) {
+                    	if (inputArray.length < 2 || inputArray.length > 3) {
                     		throw new InvalidInputException(input);
                     	}
-                        for (int i = 0; i < Integer.parseInt(inputArray[2]); i++) {
+                    	// If no count is specified, defaults to 1
+                    	if (inputArray.length == 2) {
+                    		Critter.makeCritter(inputArray[1]);
+                    		break;
+                    	}
+                    	// Attempt to parse specified make count. Invalid input 
+                    	// Exception will be thrown and caught below if parsing fails
+                    	int k = Integer.parseInt(inputArray[2]);
+                    	if (k < 0) {
+                    		throw new InvalidInputException(input);
+                    	}
+                        for (int i = 0; i < k; i++) {
                             Critter.makeCritter(inputArray[1]);
                         }
                         break;
@@ -140,7 +151,7 @@ public class Main {
                         System.out.println("invalid command: " + input);
                         break;
                 }
-            } catch (InvalidInputException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | 
+            } catch (NoClassDefFoundError | InvalidInputException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | 
             		ClassNotFoundException | NumberFormatException | InvalidCritterException | IndexOutOfBoundsException e) {
                 System.out.println("error processing: " + input);
             }

@@ -167,7 +167,7 @@ public abstract class Critter {
         try {
             Class c = Class.forName(myPackage + "." + critter_class_name);
             critter = (Critter) c.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        } catch (NoClassDefFoundError | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new InvalidCritterException(critter_class_name);
         }
         critter.x_coord = getRandomInt(Params.world_width);
@@ -280,6 +280,8 @@ public abstract class Critter {
      * Clear the world of all critters, dead and alive
      */
     public static void clearWorld() {
+    	Critter.population.clear();
+    	Critter.babies.clear();   	
     }
 
     /**
@@ -289,7 +291,8 @@ public abstract class Critter {
         // Run the time step on the whole population
         // Don't forget the rest energy cost
         for (Critter c : population) {
-            c.doTimeStep();
+        	if (c.energy > 0) c.doTimeStep();
+        	else System.out.println("no energy wTS");
         }
         Set<Critter> temp = new HashSet<Critter>();
         /*
@@ -297,7 +300,9 @@ public abstract class Critter {
          */
         for (int i = 0; i < population.size(); i++) {
             for (int j = i + 1; j < population.size(); j++) {
-                if (sameSquare(population.get(i), population.get(j))) {
+                if (sameSquare(population.get(i), population.get(j)) && 
+                		population.get(i).energy != 0 &&
+                		population.get(j).energy != 0) {
                     temp.add(population.get(i));
                     temp.add(population.get(j));
                 }
@@ -307,25 +312,27 @@ public abstract class Critter {
                 temp.clear();
             }
         }
+        
+        // add algae
+        for (int i = 0; i < Params.refresh_algae_count; i++) {
+            makeCritter("Algae");
+        }
+        // add the babies
+        population.addAll(babies);
+        
         // apply rest energy cost
         for (Critter c : population) {
             c.energy -= Params.rest_energy_cost;
         }
-        // add algae
-//        try {
-            for (int i = 0; i < Params.refresh_algae_count; i++) {
-                makeCritter("Algae");
-            }
-//        } catch (InvalidCritterException e) {
-//            System.out.println("you done goofed");
-//        }
-        // add the babies
-        population.addAll(babies);
+        
         // cull the dead
-        for (int i = 0; i < population.size(); i++) {
+        int i = 0;
+        while (i < population.size()) {
             if (population.get(i).energy <= 0) {
                 population.remove(i);
-                i--;
+                i = 0;
+            } else {
+            	i += 1;
             }
         }
         // make it okay to move again
@@ -351,39 +358,47 @@ public abstract class Critter {
      *
      * @param critters A set of critters that are in the same square
      *                 critters will always have more than 2 Critters
-     * @return a set of critters that are failures
      */
     public static void encounter(Set<Critter> critters) {
         Object[] array = critters.toArray();
-        Critter[] crit = new Critter[critters.size()];
+        Critter[] crit = new Critter[array.length];
         /*
-        crit is an array of all the critters we are trying to resolve
-        we can modify the values of crit since they are pass by value?
+	        crit is an array of all the critters we are trying to resolve
+	        we can modify the values of crit since they are pass by value?
          */
         for (int i = 0; i < critters.size(); i++) {
-            crit[i] = (Critter) array[i];
+        	crit[i] = (Critter) array[i];
         }
         // the index of the winner , this is for when there are multiple conflicts
         int winner = 0;
-        for (int i = 1; i < array.length; i++) {
+        for (int i = 1; i < crit.length; i++) {
             int aFightNum = 0, bFightNum = 0;
-            if (crit[winner].fight(crit[i].toString())) {
-                aFightNum = getRandomInt(crit[winner].energy);
+            if (crit[i] != null && crit[winner] != null) {
+	            if (crit[winner].fight(crit[i].toString())) {
+	            	if (crit[winner].energy > 0) {
+	            		aFightNum = getRandomInt(crit[winner].energy);
+	            	} else {
+	            		aFightNum = 0;
+	            	}
+	            }
+	            if (crit[i].fight(crit[winner].toString())) {
+	            	if (crit[i].energy > 0) {
+	            		bFightNum = getRandomInt(crit[i].energy);
+	            	} else {
+	            		bFightNum = 0;
+	            	}
+	            }
+	            if (sameSquare(crit[winner], crit[i])) {
+	                if (aFightNum >= bFightNum) {
+	                    crit[winner].energy += crit[i].energy / 2;
+	                    crit[i].energy = 0;
+	                } else {
+	                    crit[i].energy += crit[winner].energy / 2;
+	                    crit[winner].energy = 0;
+	                    winner = i;
+	                }
+	            }
             }
-            if (crit[i].fight(crit[winner].toString())) {
-                bFightNum = getRandomInt(crit[i].energy);
-            }
-            if (sameSquare(crit[winner], crit[i])) {
-                if (aFightNum >= bFightNum) {
-                    crit[winner].energy += crit[i].energy / 2;
-                    crit[i].energy = 0;
-                } else {
-                    crit[i].energy += crit[winner].energy / 2;
-                    crit[winner].energy = 0;
-                    winner = i;
-                }
-            }
-
         }
     }
 
