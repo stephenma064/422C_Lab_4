@@ -81,7 +81,6 @@ public class Main {
             System.out.print("critters>");
             String input = kb.nextLine().trim();
             String[] inputArray = input.split(" ");
-            boolean invalidInput = false;
             try {
                 String command = inputArray[0];
                 switch (command) {
@@ -97,10 +96,20 @@ public class Main {
                     	Critter.displayWorld();
                     	break;
                     case "step":
-                    	if (inputArray.length != 2) {
+                    	if (inputArray.length > 2) {
                     		throw new InvalidInputException(input);
                     	}
-                    	Critter.worldTimeStep();
+                    	// If no int specified, then defaults to 1 step
+                    	if (inputArray.length == 1) {
+                    		Critter.worldTimeStep();
+                    		break;
+                    	}
+                    	// Attempt to parse specified step count. Invalid input 
+                    	// Exception will be thrown and caught below if parsing fails
+                    	int j = Integer.parseInt(inputArray[1]);
+                    	for (int i = 0; i < j; i++) {
+                    		Critter.worldTimeStep();
+                    	}
                         break;
                     case "seed":
                     	if (inputArray.length != 2) {

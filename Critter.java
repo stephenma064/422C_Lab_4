@@ -403,7 +403,7 @@ public abstract class Critter {
                 if (c != null) {
                     System.out.print(c.toString());
                 } else {
-                    System.out.print("*");
+                    System.out.print(" ");
                 }
             }
             System.out.println("|");
