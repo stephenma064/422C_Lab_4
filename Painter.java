@@ -16,6 +16,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import static assignment4.Main.grid;
+
 public class Painter {
 
 	/*
@@ -40,11 +42,12 @@ public class Painter {
 	 * Paints the shape on a grid.
 	 */
 	public static void paint() {
-////		Main.grid.getChildren().clear(); // clean up grid.
-//		for (int i = 0; i <= 1; i++) {
-//			Shape s = getIcon(i);	// convert the index to an icon.
-////			Main.grid.add(s, i, i); // add the shape to the grid.
-//		}
-		
+		grid.getChildren().clear(); // clean up grid.
+		int temp = 5;
+		for (int i = 0; i < temp; i ++) {
+			for (int j = 0; j < temp; j ++) {
+                grid.add(getIcon(1),i,j);
+            }
+		}
 	}
 }
