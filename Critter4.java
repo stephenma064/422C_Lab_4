@@ -1,3 +1,6 @@
+package assignment5;
+
+import javafx.scene.paint.Color;
 // Critter4.java
 /** CRITTERS 
  * EE422C Project 4 submission by
@@ -8,7 +11,6 @@
  * Eric Su Slip days used: <2>
  * Fall 2016
  */
-package assignment4;
 
 /**
  * StephenCritter
@@ -39,5 +41,14 @@ public class Critter4 extends Critter{
 
     public void doTimeStep() {
         run(dir);
+    }
+    @Override
+    public CritterShape viewShape() {
+        return CritterShape.DIAMOND;
+    }
+
+    @Override
+    public javafx.scene.paint.Color viewColor() {
+        return Color.VIOLET;
     }
 }

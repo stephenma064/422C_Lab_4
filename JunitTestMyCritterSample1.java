@@ -1,7 +1,8 @@
 package assignment4;
 
-import assignment4.Critter.TestCritter;
 import org.junit.*;
+
+import assignment5.Critter.TestCritter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

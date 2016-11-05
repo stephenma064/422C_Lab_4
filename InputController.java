@@ -1,6 +1,6 @@
 // InputController.java
 
-package assignment4;
+package assignment5;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

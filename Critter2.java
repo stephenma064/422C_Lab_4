@@ -1,3 +1,6 @@
+package assignment5;
+
+import javafx.scene.paint.Color;
 // Critter2.java
 /** CRITTERS 
  * EE422C Project 4 submission by
@@ -9,7 +12,6 @@
  * Fall 2016
  */
 
-package assignment4;
 
 /**
  * DankCritter
@@ -60,6 +62,16 @@ public class Critter2 extends Critter {
 		else {
 			return true;
 		}
+	}
+
+	@Override
+	public CritterShape viewShape() {
+		return CritterShape.SQUARE;
+	}
+
+	@Override
+	public javafx.scene.paint.Color viewColor() {
+		return Color.BLUE;
 	}
 	
 }

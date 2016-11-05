@@ -1,4 +1,6 @@
-package assignment4;
+package assignment5;
+
+import javafx.scene.paint.Color;
 // Craig.java
 /** CRITTERS 
  * EE422C Project 4 submission by
@@ -82,5 +84,15 @@ public class Craig extends Critter {
 		System.out.print("" + total_right / (GENE_TOTAL * 0.01 * craigs.size()) + "% right   ");
 		System.out.print("" + total_left / (GENE_TOTAL * 0.01 * craigs.size()) + "% left   ");
 		System.out.println();
+	}
+
+	@Override
+	public CritterShape viewShape() {
+		return CritterShape.CIRCLE;
+	}
+
+	@Override
+	public javafx.scene.paint.Color viewColor() {
+		return Color.GREEN;
 	}
 }

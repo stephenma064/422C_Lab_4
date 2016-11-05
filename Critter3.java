@@ -1,3 +1,6 @@
+package assignment5;
+
+import javafx.scene.paint.Color;
 // Critter3.java
 /** CRITTERS 
  * EE422C Project 4 submission by
@@ -8,7 +11,6 @@
  * Eric Su Slip days used: <2>
  * Fall 2016
  */
-package assignment4;
 
 /**
  * RockCritter
@@ -38,5 +40,14 @@ public class Critter3 extends Critter{
 	    	Critter3 rock = new Critter3();
 	        reproduce(rock, Critter.getRandomInt(8));
         }
+    }
+    @Override
+    public CritterShape viewShape() {
+        return CritterShape.STAR;
+    }
+
+    @Override
+    public javafx.scene.paint.Color viewColor() {
+        return Color.ORANGE;
     }
 }

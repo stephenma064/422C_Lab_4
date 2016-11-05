@@ -1,3 +1,4 @@
+package assignment5;
 // InvalidCritterException.java
 /** CRITTERS 
  * EE422C Project 4 submission by
@@ -9,7 +10,6 @@
  * Fall 2016
  */
 
-package assignment4;
 
 public class InvalidCritterException extends Exception {
 	String offending_class;

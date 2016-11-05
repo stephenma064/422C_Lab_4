@@ -8,23 +8,60 @@
  * Eric Su Slip days used: <2>
  * Fall 2016
  */
+package assignment5;
 
-package assignment4;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/* see the PDF for descriptions of the methods and fields in this class
+import static assignment5.Main.grid;
+import static java.lang.Math.abs;
+
+/* see the PjjjjkjjjjjDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter
  */
-import static java.lang.Math.abs;
 
 public abstract class Critter {
+    public enum CritterShape {
+        CIRCLE, SQUARE, TRIANGLE, DIAMOND, STAR
+    }
+
+    /* the default color is white, which I hope makes critters invisible by default
+ * If you change the background color of your View component, then update the default
+ * color to be the same as you background
+ *
+ * critters must override at least one of the following three methods, it is not
+ * proper for critters to remain invisible in the view
+ *
+ * If a critter only overrides the outline color, then it will look like a non-filled
+ * shape, at least, that's the intent. You can edit these default methods however you
+ * need to, but please preserve that intent as you implement them.
+ */
+    public javafx.scene.paint.Color viewColor() {
+        return javafx.scene.paint.Color.WHITE;
+    }
+
+    public javafx.scene.paint.Color viewOutlineColor() {
+        return viewColor();
+    }
+
+    public javafx.scene.paint.Color viewFillColor() {
+        return viewColor();
+    }
+
+    public abstract CritterShape viewShape();
+
     private static String myPackage;
     private static List<Critter> population = new java.util.ArrayList<Critter>();
     private static List<Critter> babies = new java.util.ArrayList<Critter>();
+
 
     // Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
     static {
@@ -210,11 +247,11 @@ public abstract class Critter {
         List<Critter> result = new java.util.ArrayList<Critter>();
         Class temp;
         try {
-            temp = Class.forName(myPackage+"."+critter_class_name);
+            temp = Class.forName(myPackage + "." + critter_class_name);
         } catch (ClassNotFoundException e) {
             throw new InvalidCritterException(critter_class_name);
         }
-        for (Critter c: population) {
+        for (Critter c : population) {
             if (c.getClass().isInstance(temp) || c.getClass().equals(temp)) {
                 result.add(c);
             }
@@ -303,8 +340,8 @@ public abstract class Critter {
      * Clear the world of all critters, dead and alive
      */
     public static void clearWorld() {
-    	Critter.population.clear();
-    	Critter.babies.clear();   	
+        Critter.population.clear();
+        Critter.babies.clear();
     }
 
     /**
@@ -314,8 +351,8 @@ public abstract class Critter {
         // Run the time step on the whole population
         // Don't forget the rest energy cost
         for (Critter c : population) {
-        	if (c.energy > 0) c.doTimeStep();
-        	else System.out.println("no energy wTS");
+            if (c.energy > 0) c.doTimeStep();
+            else System.out.println("no energy wTS");
         }
         Set<Critter> temp = new HashSet<Critter>();
         /*
@@ -323,9 +360,9 @@ public abstract class Critter {
          */
         for (int i = 0; i < population.size(); i++) {
             for (int j = i + 1; j < population.size(); j++) {
-                if (sameSquare(population.get(i), population.get(j)) && 
-                		population.get(i).energy != 0 &&
-                		population.get(j).energy != 0) {
+                if (sameSquare(population.get(i), population.get(j)) &&
+                        population.get(i).energy != 0 &&
+                        population.get(j).energy != 0) {
                     temp.add(population.get(i));
                     temp.add(population.get(j));
                 }
@@ -335,7 +372,7 @@ public abstract class Critter {
                 temp.clear();
             }
         }
-        
+
         // add algae
         for (int i = 0; i < Params.refresh_algae_count; i++) {
             makeCritter("Algae");
@@ -344,12 +381,11 @@ public abstract class Critter {
         // add the babies
         population.addAll(babies);
         babies.clear();
-        
         // apply rest energy cost
         for (Critter c : population) {
             c.energy -= Params.rest_energy_cost;
         }
-        
+
         // cull the dead
         int i = 0;
         while (i < population.size()) {
@@ -357,7 +393,7 @@ public abstract class Critter {
                 population.remove(i);
                 i = 0;
             } else {
-            	i += 1;
+                i += 1;
             }
         }
         
@@ -389,41 +425,41 @@ public abstract class Critter {
         Object[] array = critters.toArray();
         Critter[] crit = new Critter[array.length];
         /*
-	        crit is an array of all the critters we are trying to resolve
+            crit is an array of all the critters we are trying to resolve
 	        we can modify the values of crit since they are pass by value?
          */
         for (int i = 0; i < critters.size(); i++) {
-        	crit[i] = (Critter) array[i];
+            crit[i] = (Critter) array[i];
         }
         // the index of the winner , this is for when there are multiple conflicts
         int winner = 0;
         for (int i = 1; i < crit.length; i++) {
             int aFightNum = 0, bFightNum = 0;
             if (crit[i] != null && crit[winner] != null) {
-	            if (crit[winner].fight(crit[i].toString())) {
-	            	if (crit[winner].energy > 0) {
-	            		aFightNum = getRandomInt(crit[winner].energy);
-	            	} else {
-	            		aFightNum = 0;
-	            	}
-	            }
-	            if (crit[i].fight(crit[winner].toString())) {
-	            	if (crit[i].energy > 0) {
-	            		bFightNum = getRandomInt(crit[i].energy);
-	            	} else {
-	            		bFightNum = 0;
-	            	}
-	            }
-	            if (sameSquare(crit[winner], crit[i])) {
-	                if (aFightNum >= bFightNum) {
-	                    crit[winner].energy += crit[i].energy / 2;
-	                    crit[i].energy = 0;
-	                } else {
-	                    crit[i].energy += crit[winner].energy / 2;
-	                    crit[winner].energy = 0;
-	                    winner = i;
-	                }
-	            }
+                if (crit[winner].fight(crit[i].toString())) {
+                    if (crit[winner].energy > 0) {
+                        aFightNum = getRandomInt(crit[winner].energy);
+                    } else {
+                        aFightNum = 0;
+                    }
+                }
+                if (crit[i].fight(crit[winner].toString())) {
+                    if (crit[i].energy > 0) {
+                        bFightNum = getRandomInt(crit[i].energy);
+                    } else {
+                        bFightNum = 0;
+                    }
+                }
+                if (sameSquare(crit[winner], crit[i])) {
+                    if (aFightNum >= bFightNum) {
+                        crit[winner].energy += crit[i].energy / 2;
+                        crit[i].energy = 0;
+                    } else {
+                        crit[i].energy += crit[winner].energy / 2;
+                        crit[winner].energy = 0;
+                        winner = i;
+                    }
+                }
             }
         }
     }
@@ -432,25 +468,71 @@ public abstract class Critter {
      * Print the 2D world.
      */
     public static void displayWorld() {
-        Critter.printTopBotBorder();
-
+        int size = 700/Params.world_height;
         // Print each row, include critters
         for (int currentRow = 0; currentRow < Params.world_height; currentRow++) {
-            System.out.print("|");
             for (int currentCol = 0; currentCol < Params.world_width; currentCol++) {
                 // Find if a Critter is occupying the current row and col
                 Critter c;
                 c = Critter.containsCritter(currentRow, currentCol);
                 if (c != null) {
-                    System.out.print(c.toString());
-                } else {
-                    System.out.print(" ");
+                    Node a = Main.grid.getChildren().get(currentRow * Params.world_width + currentCol);
+                    StackPane s = (StackPane) a;
+                    Shape shape = getShape(c.viewShape());
+                    shape.setFill(c.viewFillColor());
+                    shape.setStroke(c.viewOutlineColor());
+                    s.getChildren().add(shape);
                 }
             }
-            System.out.println("|");
         }
-        Critter.printTopBotBorder();
     }
+
+    private static Shape getShape(CritterShape shape) {
+        double size = 700/Math.max(Params.world_height,Params.world_width);
+        switch (shape) {
+            case CIRCLE:
+                Shape circle = new Circle(size/2,size/2,size/2.5);
+                return circle;
+            case SQUARE:
+                Polygon square= new Polygon();
+                square.getPoints().addAll(new Double[] {0.5,0.5,0.5,size-5,size-5,size-5,size-5,0.5});
+                return square;
+            case TRIANGLE:
+                Polygon triangle = new Polygon();
+                triangle.getPoints().addAll(new Double[] {1.5,size/2,size-1.5,size-1.5,size-1.5,1.5});
+                return triangle;
+            case DIAMOND:
+                Polygon diamond = new Polygon();
+                diamond.getPoints().addAll(new Double[] {size/4,size/2,size/2,size-1.5,size/1.3,size/2,size/2,1.5});
+                return diamond;
+            case STAR:
+                Polygon star = new Polygon();
+                star.getPoints().addAll(new Double[] {5.0, size/2, size-5,size-5,size/3,5.0,size/3,size-5.0,size-5,5.0});
+                return star;
+        }
+        return null;
+    }
+
+//        public static void displayWorld() {
+//        Critter.printTopBotBorder();
+//
+//        // Print each row, include critters
+//        for (int currentRow = 0; currentRow < Params.world_height; currentRow++) {
+//            System.out.print("|");
+//            for (int currentCol = 0; currentCol < Params.world_width; currentCol++) {
+//                // Find if a Critter is occupying the current row and col
+//                Critter c;
+//                c = Critter.containsCritter(currentRow, currentCol);
+//                if (c != null) {
+//                    System.out.print(c.toString());
+//                } else {
+//                    System.out.print(" ");
+//                }
+//            }
+//            System.out.println("|");
+//        }
+//        Critter.printTopBotBorder();
+//    }
 
     /**
      * Print the top / bottom border
