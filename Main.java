@@ -59,6 +59,13 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		try {
+		for (int i = 0; i < 20; i++) {
+			Critter.makeCritter("Craig");
+		}
+		} catch (InvalidCritterException e) {
+			System.out.println("dummy");
+		}
 		launch(args);
 	}
 }
