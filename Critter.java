@@ -56,7 +56,27 @@ public abstract class Critter {
     private int y_coord;
 
     private boolean hasMoved = false;
-
+    
+    /**
+     * Examines location identified by critter's current coordinates
+     * either 1 step away or 2 steps away
+     * @param direction Direction to look
+     * @param steps False for 1, True for 2 steps
+     * @return Critter name, null for no Critter
+     */
+    protected String look(int direction, boolean steps) {
+    	int[] critterLocation = new int[2];
+    	critterLocation[0] = this.x_coord;
+    	critterLocation[1] = this.y_coord;
+    	int[] newCritterLocation = new int[2];
+    	int stepsToTake = (steps == true) ? 2 : 1;
+    	newCritterLocation = findDirection(direction, stepsToTake, critterLocation[0], critterLocation[1]);
+    	Critter critter = containsCritter(newCritterLocation[0], newCritterLocation[1]);
+    	this.energy -= Params.look_energy_cost;
+    	if (critter != null)  return critter.toString(); 
+    	else return null;   	
+    }
+    
     /**
      * Given a direction, and a starting point, returns coordinates of
      * the new place you want to be

@@ -84,7 +84,7 @@ public class Mainold {
             try {
                 String command = inputArray[0];
                 switch (command) {
-                    case "quit":
+case "quit":
                     	if (inputArray.length != 1) {
                     		throw new InvalidInputException(input);
                     	}

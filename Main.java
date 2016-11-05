@@ -8,7 +8,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	static String testOutputString;
 	static GridPane grid = new GridPane();
+
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -45,6 +47,8 @@ public class Main extends Application {
 			Scene secondScene = new Scene(pane, 200, 200);
 			secondStage.setScene(secondScene);
 //			secondStage.show();
+			
+			InputController mainController = new InputController();
 		} catch(Exception e) {
 			e.printStackTrace();		
 		}
@@ -54,4 +58,4 @@ public class Main extends Application {
 		launch(args);
 	}
 }
->>>>>>> f74c7fede57879320c9ac696b61a0c97a540a3cc
+
