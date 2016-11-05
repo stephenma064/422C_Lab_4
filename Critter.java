@@ -1,9 +1,11 @@
-/* CRITTERS Critter.java
+// Critter.java
+/** CRITTERS 
  * EE422C Project 4 submission by
  * Stephen Ma szm99
  * Eric Su es25725
  * 
- * Slip days used: <0>
+ * Stephen Ma Slip days used: <1>
+ * Eric Su Slip days used: <2>
  * Fall 2016
  */
 package assignment5;
@@ -81,7 +83,6 @@ public abstract class Critter {
     public static void setSeed(long new_seed) {
         rand = new java.util.Random(new_seed);
     }
-    // test test
 
     /* a one-character long string that visually depicts your critter in the ASCII interface */
     public String toString() {
@@ -189,6 +190,7 @@ public abstract class Critter {
         int[] babyDir = findDirection(direction, 1, this.x_coord, this.y_coord);
         offspring.x_coord = babyDir[0];
         offspring.y_coord = babyDir[1];
+        Critter.babies.add(offspring);
     }
 
     public abstract void doTimeStep();
@@ -361,9 +363,10 @@ public abstract class Critter {
         for (int i = 0; i < Params.refresh_algae_count; i++) {
             makeCritter("Algae");
         }
+        
         // add the babies
         population.addAll(babies);
-
+        babies.clear();
         // apply rest energy cost
         for (Critter c : population) {
             c.energy -= Params.rest_energy_cost;
@@ -379,6 +382,7 @@ public abstract class Critter {
                 i += 1;
             }
         }
+        
         // make it okay to move again
         for (Critter c : population) {
             c.hasMoved = false;

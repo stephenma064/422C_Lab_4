@@ -1,6 +1,16 @@
 package assignment5;
 
 import javafx.scene.paint.Color;
+// Critter1.java
+/** CRITTERS 
+ * EE422C Project 4 submission by
+ * Stephen Ma szm99
+ * Eric Su es25725
+ * 
+ * Stephen Ma Slip days used: <1>
+ * Eric Su Slip days used: <2>
+ * Fall 2016
+ */
 
 /**
  * LadiesCritter
@@ -34,6 +44,8 @@ public class Critter1 extends Critter {
 			reproduce(lc, Critter.getRandomInt(8));
 			reproduce(lc1, Critter.getRandomInt(8));
 		}
+		
+		this.dir = Critter.getRandomInt(8);
 	}
 
 	@Override
