@@ -10,7 +10,7 @@
  * Slip days used: <0>
  * Fall 2016
  */
-package assignment4; // cannot be in default package
+package assignment5; // cannot be in default package
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

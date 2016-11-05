@@ -1,4 +1,6 @@
-package assignment4;
+package assignment5;
+
+import javafx.scene.paint.Color;
 
 /**
  * LadiesCritter
@@ -41,5 +43,14 @@ public class Critter1 extends Critter {
 	
 	@Override
 	public String toString() { return "1"; }
-	
+
+	@Override
+	public CritterShape viewShape() {
+		return CritterShape.CIRCLE;
+	}
+
+	@Override
+	public javafx.scene.paint.Color viewColor() {
+		return Color.MAGENTA;
+	}
 }

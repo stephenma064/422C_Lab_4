@@ -10,13 +10,13 @@
  * Slip days used: <0>
  * Fall 2015
  */
-package assignment4;
+package assignment5;
 
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-import static assignment4.Main.grid;
+import static assignment5.Main.grid;
 
 public class Painter {
 

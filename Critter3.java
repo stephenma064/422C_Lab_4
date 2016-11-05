@@ -1,4 +1,6 @@
-package assignment4;
+package assignment5;
+
+import javafx.scene.paint.Color;
 
 /**
  * RockCritter
@@ -25,5 +27,14 @@ public class Critter3 extends Critter{
         // Erosion
         Critter3 rock = new Critter3();
         reproduce(rock,Critter.getRandomInt(8));
+    }
+    @Override
+    public CritterShape viewShape() {
+        return CritterShape.STAR;
+    }
+
+    @Override
+    public javafx.scene.paint.Color viewColor() {
+        return Color.ORANGE;
     }
 }

@@ -1,4 +1,6 @@
-package assignment4;
+package assignment5;
+
+import javafx.scene.paint.Color;
 
 /**
  * DankCritter
@@ -49,6 +51,16 @@ public class Critter2 extends Critter {
 		else {
 			return true;
 		}
+	}
+
+	@Override
+	public CritterShape viewShape() {
+		return CritterShape.SQUARE;
+	}
+
+	@Override
+	public javafx.scene.paint.Color viewColor() {
+		return Color.BLUE;
 	}
 	
 }

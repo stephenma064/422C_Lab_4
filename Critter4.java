@@ -1,4 +1,6 @@
-package assignment4;
+package assignment5;
+
+import javafx.scene.paint.Color;
 
 /**
  * StephenCritter
@@ -29,5 +31,14 @@ public class Critter4 extends Critter{
 
     public void doTimeStep() {
         run(dir);
+    }
+    @Override
+    public CritterShape viewShape() {
+        return CritterShape.DIAMOND;
+    }
+
+    @Override
+    public javafx.scene.paint.Color viewColor() {
+        return Color.VIOLET;
     }
 }
