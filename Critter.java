@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static assignment5.Main.grid;
 import static java.lang.Math.abs;
 
 /* see the PjjjjkjjjjjDF for descriptions of the methods and fields in this class
@@ -481,6 +480,7 @@ public abstract class Critter {
                     Shape shape = getShape(c.viewShape());
                     shape.setFill(c.viewFillColor());
                     shape.setStroke(c.viewOutlineColor());
+                    s.getChildren().clear();
                     s.getChildren().add(shape);
                 }
             }
