@@ -48,7 +48,7 @@
          </font>
       </Label>
       <Button fx:id="setSeedButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#setSeed" prefHeight="27.0" prefWidth="55.0" text="Set" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Button fx:id="stepButton" mnemonicParsing="false" prefWidth="55.0" text="Step" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <Button fx:id="stepButton" mnemonicParsing="false" onAction="#doStep" prefWidth="55.0" text="Step" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="152.0" text="Add Critter:" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font size="19.0" />

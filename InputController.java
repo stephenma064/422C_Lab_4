@@ -3,8 +3,10 @@
 package assignment5;
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -24,7 +26,13 @@ import javafx.scene.control.TextField;
  */
 public class InputController implements Initializable {
 	
+	private static String myPackage; 
+	
 	// Inject the components
+	@FXML
+	private ChoiceBox<String> selectAnimationMenu;
+	@FXML
+	private Button setAnimateButton;
 	
 	@FXML
     private ChoiceBox<String> stepChoiceMenu;	
@@ -34,7 +42,7 @@ public class InputController implements Initializable {
 	@FXML
     private ChoiceBox<String> addCritterCountMenu;
 	@FXML
-    private ChoiceBox<?> addCritterChoiceMenu;
+    private ChoiceBox<String> addCritterChoiceMenu;
     @FXML
     private Button addCritterMakeButton;
     
@@ -49,14 +57,14 @@ public class InputController implements Initializable {
 			"1", "2", "3", "4", "5", "10", "50", "100");
 		ObservableList<String> steps = FXCollections.observableArrayList(
 			"1", "2", "3", "4", "5", "10", "50", "100", "500");
-		addCritterCountMenu.setItems(list);		
+		ObservableList<String> namesOfCritter = FXCollections.observableArrayList(fetchCritterClasses());
+		addCritterCountMenu.setItems(list);	
+		addCritterChoiceMenu.setItems(namesOfCritter);
 		stepChoiceMenu.setItems(steps);
 		stepChoiceMenu.setValue("1");
 	}	
 
-	
-
-	public void addCritter(ActionEvent event) {
+	public void addCritter() {
 		int newCritterCount = 0;
 		try {
 			newCritterCount = Integer.valueOf(addCritterCountMenu.getValue()).intValue();
@@ -70,6 +78,7 @@ public class InputController implements Initializable {
 				// Invalid critter
 			}
 		}
+		Critter.displayWorld();
 	}
 	
 	public void setSeed() {
@@ -82,10 +91,10 @@ public class InputController implements Initializable {
 			// use pop up or other notification
 		}
 		Critter.setSeed(seed);
+		Critter.displayWorld();
 	}
 	
 	public void doStep() {
-		System.out.println("hji");
 		int stepCount = Integer.valueOf(stepChoiceMenu.getValue()).intValue();
 		for (int i = 0; i < stepCount; i++) {
             try {
@@ -94,18 +103,38 @@ public class InputController implements Initializable {
             	// Invalid Critter
             }
         }
+		Critter.displayWorld();
 	}
 	
-//	private ArrayList<String> fetchCritterClasses() {
-//		ArrayList<>
-//		File folder = new File(".");
-//		File[] listOfFiles = folder.listFiles();
-//		for (int i = 0; i < listOfFiles.length; i++) {
-//			if (listOfFiles[i].isFile() && listOfFiles[i].getName().contains("Critter")) {
-//				
-//			}
-//		}
-//	}
+	/**
+	 * Parse all files in the directory for only the Critter classes
+	 * @return ArrayList of Critter classes
+	 */
+	private ArrayList<String> fetchCritterClasses() {
+		myPackage = Critter.class.getPackage().toString().split(" ")[1];
+		ArrayList<String> results = new ArrayList<String>();
+		File folder = new File("./src/"+myPackage);
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".java")) {
+				String name = listOfFiles[i].getName();
+				results.add(name.substring(0, name.length() - 5));
+			}
+		}
+		ArrayList<String> finalList = new ArrayList<String>();
+		for (String s: results) {
+			Critter critter;
+			try {
+				Class<?> tClass = Class.forName(myPackage + "." + s);
+				critter = (Critter) tClass.newInstance();
+				finalList.add(s);
+			} catch (ClassCastException | ClassNotFoundException | NoClassDefFoundError | InstantiationException | IllegalAccessException e) {
+				// placeholder
+			}
+		}
+		
+		return finalList;		
+	}
 
 
 	
