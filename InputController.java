@@ -2,93 +2,111 @@
 
 package assignment5;
 
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
 
 /**
  * Controller for main user input menu.
  * @author ericsu
  *
  */
-public class InputController {
-	private static final int OFFSET = 5;
+public class InputController implements Initializable {
 	
-	private static final int SEED_ROW_INDEX = 5;
-	private static final int STEP_ROW_INDEX = 10;
+	// Inject the components
 	
-	public InputController() {
-		Stage inputStage = new Stage();
-		
-		// Main root pane, configure spacing between components and other features
-		Label title = new Label("Critter World");
-		title.setFont(new Font("System Bold", 25));
-		GridPane inputPane = new GridPane();
-		inputPane.setPadding(new Insets(10, 10, 10, 10));
-		inputPane.setVgap(5);
-		inputPane.setHgap(5);		
-		inputStage.setTitle("CritterWorld");
-		inputPane.getChildren().add(title);
-		Scene inputScene = new Scene(inputPane, 500, 500);
-		
-		
-		// Create Set Seed components
-		Label setSeedLabel = new Label("Set Seed: ");
-		TextField seedField = new TextField();
-		Button setSeedButton = new Button("Set");
-		setSeedButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override public void handle(ActionEvent e) {
-				try {
-					Integer.parseInt(seedField.getText());
-				} catch (NumberFormatException f) {
-					final Stage popup = new Stage();
-					StackPane pane = new StackPane();
-					Scene popScene = new Scene(pane, 50, 50);
-					Label label = new Label("Invalid input");
-					pane.getChildren().add(label);
-					popup.setScene(popScene);
-					popup.show();
-				}
-				Critter.setSeed(Long.valueOf(seedField.getText()).longValue());
+	@FXML
+    private ChoiceBox<String> stepChoiceMenu;	
+	@FXML
+    private Button stepButton;
+	
+	@FXML
+    private ChoiceBox<String> addCritterCountMenu;
+	@FXML
+    private ChoiceBox<?> addCritterChoiceMenu;
+    @FXML
+    private Button addCritterMakeButton;
+    
+    @FXML
+    private TextField inputSeedField;
+    @FXML
+    private Button setSeedButton;
+    
+    @FXML @Override
+	public void initialize(URL location, ResourceBundle resources) {
+		ObservableList<String> list = FXCollections.observableArrayList(
+			"1", "2", "3", "4", "5", "10", "50", "100");
+		ObservableList<String> steps = FXCollections.observableArrayList(
+			"1", "2", "3", "4", "5", "10", "50", "100", "500");
+		addCritterCountMenu.setItems(list);		
+		stepChoiceMenu.setItems(steps);
+		stepChoiceMenu.setValue("1");
+	}	
+
+	
+
+	public void addCritter(ActionEvent event) {
+		int newCritterCount = 0;
+		try {
+			newCritterCount = Integer.valueOf(addCritterCountMenu.getValue()).intValue();
+		} catch (NumberFormatException e) {
+			// use pop up or other notification
+		}
+		for (int i = 0; i < newCritterCount; i++) {
+			try {
+				Critter.makeCritter(addCritterChoiceMenu.getValue().toString());
+			} catch (InvalidCritterException e) {
+				// Invalid critter
 			}
-		});
-		GridPane.setConstraints(setSeedLabel, 0, InputController.SEED_ROW_INDEX);
-		GridPane.setConstraints(seedField, 1, InputController.SEED_ROW_INDEX);
-		GridPane.setConstraints(setSeedButton, 3, InputController.SEED_ROW_INDEX);
-		inputPane.getChildren().addAll(setSeedLabel, seedField, setSeedButton);
-		
-		// Create Step components
-		Label stepLabel = new Label("Step: ");	
-		ObservableList<String> options = FXCollections.observableArrayList(
-	        "Option 1",
-	        "Option 2",
-	        "Option 3"
-		);
-		Button stepButton = new Button("Step");
-		ComboBox<String> stepChoices = new ComboBox<String>(options);
-		GridPane.setConstraints(stepLabel, 0, InputController.STEP_ROW_INDEX);
-		GridPane.setConstraints(stepChoices, 1, InputController.STEP_ROW_INDEX);
-		GridPane.setConstraints(stepButton, 2, InputController.STEP_ROW_INDEX);
-		inputPane.getChildren().addAll(stepLabel, stepChoices, stepButton);
-		
-		
-		
-		// Add the scene to the main stage and display it
-		inputStage.setScene(inputScene);
-		inputStage.show();
+		}
 	}
 	
+	public void setSeed() {
+		Long seed = new Long(0);
+		try {
+			seed = Long.valueOf(inputSeedField.getText()).longValue();
+		} catch (NumberFormatException e) {
+			System.out.println("nope");
+			return;
+			// use pop up or other notification
+		}
+		Critter.setSeed(seed);
+	}
+	
+	public void doStep() {
+		System.out.println("hji");
+		int stepCount = Integer.valueOf(stepChoiceMenu.getValue()).intValue();
+		for (int i = 0; i < stepCount; i++) {
+            try {
+            	Critter.worldTimeStep();
+            } catch (InvalidCritterException e) {
+            	// Invalid Critter
+            }
+        }
+	}
+	
+//	private ArrayList<String> fetchCritterClasses() {
+//		ArrayList<>
+//		File folder = new File(".");
+//		File[] listOfFiles = folder.listFiles();
+//		for (int i = 0; i < listOfFiles.length; i++) {
+//			if (listOfFiles[i].isFile() && listOfFiles[i].getName().contains("Critter")) {
+//				
+//			}
+//		}
+//	}
+
+
 	
 }

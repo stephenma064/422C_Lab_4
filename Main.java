@@ -1,6 +1,7 @@
 package assignment5;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.ColumnConstraints;
@@ -16,7 +17,9 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {			
+		try {		
+			
+            
             for (int i = 0; i < Params.world_width; i++) {
                 ColumnConstraints column = new ColumnConstraints(700 / Params.world_width);
                 grid.getColumnConstraints().add(column);
@@ -52,7 +55,15 @@ public class Main extends Application {
             secondStage.setScene(secondScene);
 //			secondStage.show();
 			
-			InputController mainController = new InputController();
+            
+            
+			Stage menu = new Stage();
+        	GridPane mainMenu = FXMLLoader.load(Main.class.getResource("InputController.fxml"));
+            Scene scene1 = new Scene(mainMenu);
+            menu.setScene(scene1);
+            menu.setTitle("Critter World");
+            menu.show();
+
 		} catch(Exception e) {
 			e.printStackTrace();		
 		}
@@ -66,7 +77,7 @@ public class Main extends Application {
 		} catch (InvalidCritterException e) {
 			System.out.println("dummy");
 		}
-		launch(args);
+		Application.launch(args);
 	}
 }
 
