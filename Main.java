@@ -16,7 +16,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {			
+        try {
+            for (int i = 0; i < 20; i++) {
+                Critter.makeCritter("Craig");
+            }
+        } catch (InvalidCritterException e) {
+            System.out.println("dummy");
+        }
+		try {
             for (int i = 0; i < Params.world_width; i++) {
                 ColumnConstraints column = new ColumnConstraints(700 / Params.world_width);
                 grid.getColumnConstraints().add(column);
@@ -53,19 +60,13 @@ public class Main extends Application {
 //			secondStage.show();
 			
 			InputController mainController = new InputController();
+            StatController statController = new StatController();
 		} catch(Exception e) {
 			e.printStackTrace();		
 		}
 	}
 	
 	public static void main(String[] args) {
-		try {
-		for (int i = 0; i < 20; i++) {
-			Critter.makeCritter("Craig");
-		}
-		} catch (InvalidCritterException e) {
-			System.out.println("dummy");
-		}
 		launch(args);
 	}
 }
