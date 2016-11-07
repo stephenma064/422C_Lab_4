@@ -17,9 +17,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {		
-			
-            
+		try {
+            for (int i = 0; i < 20; i++) {
+                Critter.makeCritter("Craig");
+            }
+        } catch (InvalidCritterException e) {
+            System.out.println("dummy");
+        }
+		try {
             for (int i = 0; i < Params.world_width; i++) {
                 ColumnConstraints column = new ColumnConstraints(700 / Params.world_width);
                 grid.getColumnConstraints().add(column);
@@ -54,8 +59,7 @@ public class Main extends Application {
             Scene secondScene = new Scene(pane, 200, 200);
             secondStage.setScene(secondScene);
 //			secondStage.show();
-			
-            
+
             
 			Stage menu = new Stage();
         	GridPane mainMenu = FXMLLoader.load(Main.class.getResource("InputController.fxml"));
@@ -63,6 +67,7 @@ public class Main extends Application {
             menu.setScene(scene1);
             menu.setTitle("Critter World");
             menu.show();
+            StatController statController = new StatController();
 
 		} catch(Exception e) {
 			e.printStackTrace();		
@@ -70,13 +75,6 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		try {
-		for (int i = 0; i < 20; i++) {
-			Critter.makeCritter("Craig");
-		}
-		} catch (InvalidCritterException e) {
-			System.out.println("dummy");
-		}
 		Application.launch(args);
 	}
 }
