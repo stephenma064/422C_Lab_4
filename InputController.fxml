@@ -20,8 +20,8 @@
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment5.InputController">
   <columnConstraints>
     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="282.12872314453125" minWidth="10.0" prefWidth="243.1226348876953" />
-    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="344.720458984375" minWidth="10.0" prefWidth="344.720458984375" />
-      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="98.279541015625" />
+    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="344.720458984375" minWidth="10.0" prefWidth="259.7122802734375" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="190.2877197265625" />
   </columnConstraints>
   <rowConstraints>
       <RowConstraints maxHeight="70.12263488769531" minHeight="10.0" prefHeight="69.10730743408203" vgrow="SOMETIMES" />
@@ -93,7 +93,7 @@
          </font>
       </Label>
       <ChoiceBox fx:id="selectAnimationMenu" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Button fx:id="setAnimateButton" mnemonicParsing="false" text="Toggle" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <Button fx:id="setAnimateButton" mnemonicParsing="false" onAction="#animationHandler" text="Toggle" GridPane.columnIndex="2" GridPane.rowIndex="7" />
       <Button fx:id="exitProgram" alignment="CENTER" mnemonicParsing="false" onAction="#killProgram" text="Exit" GridPane.columnIndex="2" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="44.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="200.0" />
       <ImageView fitHeight="53.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">

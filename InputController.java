@@ -22,53 +22,59 @@ import java.util.ResourceBundle;
 
 /**
  * Controller for main user input menu.
+ * 
  * @author ericsu
  *
  */
 public class InputController implements Initializable {
-	
+
 	private static String myPackage;
-    private static ScheduledService animation;
-    private static boolean isAnimationRunning = false;
-	
+	private static ScheduledService animation;
+	private static boolean isAnimationRunning = false;
+
 	// Inject the components
 	@FXML
 	private Button exitProgram;
-	
+
 	@FXML
 	private ChoiceBox<String> selectAnimationMenu;
 	@FXML
 	private Button setAnimateButton;
-	
-	@FXML
-    private ChoiceBox<String> stepChoiceMenu;	
-	@FXML
-    private Button stepButton;
-	
-	@FXML
-    private ChoiceBox<String> addCritterCountMenu;
-	@FXML
-    private ChoiceBox<String> addCritterChoiceMenu;
-    @FXML
-    private Button addCritterMakeButton;
-    
-    @FXML
-    private TextField inputSeedField;
-    @FXML
-    private Button setSeedButton;
 
-    @FXML @Override
+	@FXML
+	private ChoiceBox<String> stepChoiceMenu;
+	@FXML
+	private Button stepButton;
+
+	@FXML
+	private ChoiceBox<String> addCritterCountMenu;
+	@FXML
+	private ChoiceBox<String> addCritterChoiceMenu;
+	@FXML
+	private Button addCritterMakeButton;
+
+	@FXML
+	private TextField inputSeedField;
+	@FXML
+	private Button setSeedButton;
+
+	@FXML
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ObservableList<String> list = FXCollections.observableArrayList(
-			"1", "2", "3", "4", "5", "10", "50", "100");
-		ObservableList<String> steps = FXCollections.observableArrayList(
-			"1", "2", "3", "4", "5", "10", "50", "100", "500");
-		ObservableList<String> namesOfCritter = FXCollections.observableArrayList(InputController.fetchCritterClasses());
-		addCritterCountMenu.setItems(list);	
+		ObservableList<String> list = FXCollections.observableArrayList("1", "2", "3", "4", "5", "10", "50", "100");
+		ObservableList<String> steps = FXCollections.observableArrayList("1", "2", "3", "4", "5", "10", "50", "100",
+				"500");
+		ObservableList<String> animSteps = FXCollections.observableArrayList("1", "2", "5");
+		ObservableList<String> namesOfCritter = FXCollections
+				.observableArrayList(InputController.fetchCritterClasses());
+		addCritterCountMenu.setItems(list);
 		addCritterChoiceMenu.setItems(namesOfCritter);
+		selectAnimationMenu.setItems(animSteps);
 		stepChoiceMenu.setItems(steps);
 		stepChoiceMenu.setValue("1");
-	}	
+		selectAnimationMenu.setValue("1");
+		// animationInit(Integer.parseInt(selectAnimationMenu.getValue()));
+	}
 
 	public void addCritter() {
 		int newCritterCount = 0;
@@ -86,7 +92,7 @@ public class InputController implements Initializable {
 		}
 		Critter.displayWorld();
 	}
-	
+
 	public void setSeed() {
 		Long seed = new Long(0);
 		try {
@@ -99,65 +105,70 @@ public class InputController implements Initializable {
 		Critter.setSeed(seed);
 		Critter.displayWorld();
 	}
-	
+
 	public void doStep() {
 		int stepCount = Integer.valueOf(stepChoiceMenu.getValue()).intValue();
 		for (int i = 0; i < stepCount; i++) {
-            try {
-            	Critter.worldTimeStep();
-            } catch (InvalidCritterException e) {
-            	// Invalid Critter
-            }
-        }
+			try {
+				Critter.worldTimeStep();
+			} catch (InvalidCritterException e) {
+				// Invalid Critter
+			}
+		}
 		Critter.displayWorld();
 	}
-	
+
 	public void killProgram() {
 		Platform.exit();
 	}
 
 	public void animationInit(int times) {
-		animation = new ScheduledService() {
-			@Override
-			protected Task createTask() {
-				for (int i = 0; i < times; i++) {
-					try {
-						Critter.worldTimeStep();
-						Critter.displayWorld();
-					} catch (InvalidCritterException e) {
-						//foo
-					}
-				}
-				return null;
-			}
-		};
-		animation.setPeriod(Duration.seconds(1));
+		// animation = new ScheduledService() {
+		// @Override
+		// protected Task createTask() {
+		// for (int i = 0; i < times; i++) {
+		// try {
+		// Critter.worldTimeStep();
+		// Critter.displayWorld();
+		// } catch (InvalidCritterException e) {
+		// //foo
+		// }
+		// }
+		// return null;
+		// }
+		// };
+		// animation.setPeriod(Duration.seconds(1));
 	}
 
 	public void animationHandler() {
 		if (isAnimationRunning) {
 			stopAnimation();
-		} else  {
+		} else {
 			startAnimation();
 		}
 	}
 
 	private void startAnimation() {
+		int animSpeed = Integer.parseInt(selectAnimationMenu.getValue());
+
+		// Disable buttons
 		for (Node n : Main.mainMenu.getChildren()) {
-			if (n.getId().equals("setAnimateButton")) {
-				Button b = (Button) n;
-				b.setText("Stop");
-			} else {
-				n.setOpacity(.5);
-				n.setDisable(true);
+			String ID = n.getId();
+			if (ID != null) {
+				if (ID.equals("setAnimateButton")) {
+					Button b = (Button) n;
+					b.setText("Stop");
+				} else {
+					n.setOpacity(.5);
+					n.setDisable(true);
+				}
 			}
 		}
-		animation.start();
 	}
 
 	private void stopAnimation() {
 		animation.cancel();
-		for (Node n: Main.mainMenu.getChildren()) {
+		for (Node n : Main.mainMenu.getChildren()) {
 			if (n.getId().equals("setAnimateButton")) {
 				Button b = (Button) n;
 				b.setText("Start");
@@ -168,16 +179,16 @@ public class InputController implements Initializable {
 		}
 	}
 
-
 	/**
 	 * Parse all files in the directory for only the Critter classes
+	 * 
 	 * @return ArrayList of Critter classes
 	 */
 	public static ArrayList<String> fetchCritterClasses() {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 		ArrayList<String> results = new ArrayList<String>();
-//		File folder = new File("./assignment5");
-        File folder = new File("./src/"+myPackage);
+		// File folder = new File("./assignment5");
+		File folder = new File("./src/" + myPackage);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".java")) {
@@ -186,20 +197,19 @@ public class InputController implements Initializable {
 			}
 		}
 		ArrayList<String> finalList = new ArrayList<String>();
-		for (String s: results) {
+		for (String s : results) {
 			try {
 				Class<?> tClass = Class.forName(myPackage + "." + s);
 				@SuppressWarnings("unused")
 				Critter critter = (Critter) tClass.newInstance();
 				finalList.add(s);
-			} catch (ClassCastException | ClassNotFoundException | NoClassDefFoundError | InstantiationException | IllegalAccessException e) {
+			} catch (ClassCastException | ClassNotFoundException | NoClassDefFoundError | InstantiationException
+					| IllegalAccessException e) {
 				// placeholder
 			}
 		}
-		
-		return finalList;		
+
+		return finalList;
 	}
 
-
-	
 }
