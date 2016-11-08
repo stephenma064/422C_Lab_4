@@ -2,18 +2,23 @@
 
 package assignment5;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
+import javafx.util.Duration;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
 
 /**
  * Controller for main user input menu.
@@ -22,7 +27,9 @@ import javafx.scene.control.TextField;
  */
 public class InputController implements Initializable {
 	
-	private static String myPackage; 
+	private static String myPackage;
+    private static ScheduledService animation;
+    private static boolean isAnimationRunning = false;
 	
 	// Inject the components
 	@FXML
@@ -49,7 +56,7 @@ public class InputController implements Initializable {
     private TextField inputSeedField;
     @FXML
     private Button setSeedButton;
-    
+
     @FXML @Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ObservableList<String> list = FXCollections.observableArrayList(
@@ -108,7 +115,60 @@ public class InputController implements Initializable {
 	public void killProgram() {
 		Platform.exit();
 	}
-	
+
+	public void animationInit(int times) {
+		animation = new ScheduledService() {
+			@Override
+			protected Task createTask() {
+				for (int i = 0; i < times; i++) {
+					try {
+						Critter.worldTimeStep();
+						Critter.displayWorld();
+					} catch (InvalidCritterException e) {
+						//foo
+					}
+				}
+				return null;
+			}
+		};
+		animation.setPeriod(Duration.seconds(1));
+	}
+
+	public void animationHandler() {
+		if (isAnimationRunning) {
+			stopAnimation();
+		} else  {
+			startAnimation();
+		}
+	}
+
+	private void startAnimation() {
+		for (Node n : Main.mainMenu.getChildren()) {
+			if (n.getId().equals("setAnimateButton")) {
+				Button b = (Button) n;
+				b.setText("Stop");
+			} else {
+				n.setOpacity(.5);
+				n.setDisable(true);
+			}
+		}
+		animation.start();
+	}
+
+	private void stopAnimation() {
+		animation.cancel();
+		for (Node n: Main.mainMenu.getChildren()) {
+			if (n.getId().equals("setAnimateButton")) {
+				Button b = (Button) n;
+				b.setText("Start");
+			} else {
+				n.setOpacity(0.0);
+				n.setDisable(false);
+			}
+		}
+	}
+
+
 	/**
 	 * Parse all files in the directory for only the Critter classes
 	 * @return ArrayList of Critter classes
@@ -116,7 +176,8 @@ public class InputController implements Initializable {
 	public static ArrayList<String> fetchCritterClasses() {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 		ArrayList<String> results = new ArrayList<String>();
-		File folder = new File("./src/"+myPackage);
+//		File folder = new File("./assignment5");
+        File folder = new File("./src/"+myPackage);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".java")) {

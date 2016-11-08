@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	static String testOutputString;
 	static GridPane grid = new GridPane();
-
+    static GridPane mainMenu;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -56,7 +56,7 @@ public class Main extends Application {
 
             
 			Stage menu = new Stage();
-        	GridPane mainMenu = FXMLLoader.load(Main.class.getResource("InputController.fxml"));
+        	mainMenu = FXMLLoader.load(Main.class.getResource("InputController.fxml"));
             Scene scene1 = new Scene(mainMenu);
             menu.setScene(scene1);
             menu.setTitle("Critter World");
