@@ -106,7 +106,6 @@ public class InputController implements Initializable {
 	}
 	
 	public void killProgram() {
-		System.out.println("Hi");
 		Platform.exit();
 	}
 	
