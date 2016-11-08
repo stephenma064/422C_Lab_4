@@ -3,16 +3,12 @@
 package assignment5;
 
 import java.io.File;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,6 +25,9 @@ public class InputController implements Initializable {
 	private static String myPackage; 
 	
 	// Inject the components
+	@FXML
+	private Button exitProgram;
+	
 	@FXML
 	private ChoiceBox<String> selectAnimationMenu;
 	@FXML
@@ -57,7 +56,7 @@ public class InputController implements Initializable {
 			"1", "2", "3", "4", "5", "10", "50", "100");
 		ObservableList<String> steps = FXCollections.observableArrayList(
 			"1", "2", "3", "4", "5", "10", "50", "100", "500");
-		ObservableList<String> namesOfCritter = FXCollections.observableArrayList(fetchCritterClasses());
+		ObservableList<String> namesOfCritter = FXCollections.observableArrayList(InputController.fetchCritterClasses());
 		addCritterCountMenu.setItems(list);	
 		addCritterChoiceMenu.setItems(namesOfCritter);
 		stepChoiceMenu.setItems(steps);
@@ -106,11 +105,16 @@ public class InputController implements Initializable {
 		Critter.displayWorld();
 	}
 	
+	public void killProgram() {
+		System.out.println("Hi");
+		Platform.exit();
+	}
+	
 	/**
 	 * Parse all files in the directory for only the Critter classes
 	 * @return ArrayList of Critter classes
 	 */
-	private ArrayList<String> fetchCritterClasses() {
+	public static ArrayList<String> fetchCritterClasses() {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 		ArrayList<String> results = new ArrayList<String>();
 		File folder = new File("./src/"+myPackage);
@@ -123,10 +127,10 @@ public class InputController implements Initializable {
 		}
 		ArrayList<String> finalList = new ArrayList<String>();
 		for (String s: results) {
-			Critter critter;
 			try {
 				Class<?> tClass = Class.forName(myPackage + "." + s);
-				critter = (Critter) tClass.newInstance();
+				@SuppressWarnings("unused")
+				Critter critter = (Critter) tClass.newInstance();
 				finalList.add(s);
 			} catch (ClassCastException | ClassNotFoundException | NoClassDefFoundError | InstantiationException | IllegalAccessException e) {
 				// placeholder

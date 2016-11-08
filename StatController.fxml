@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="assignment5.StatController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="95.76238250732422" minHeight="10.0" prefHeight="74.31676483154297" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="95.76238250732422" minHeight="10.0" prefHeight="74.31676483154297" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="141.31676483154297" minHeight="10.0" prefHeight="75.68323516845703" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ChoiceBox fx:id="selectCritterStat" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+      <Text fx:id="critterStatText" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select Critter" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Button fx:id="runStatsButton" mnemonicParsing="false" onAction="#runStats" text="Run Stats">
+         <GridPane.margin>
+            <Insets left="450.0" />
+         </GridPane.margin>
+      </Button>
+      <Line endX="580.0" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Line>
+   </children>
+</GridPane>

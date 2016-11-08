@@ -84,5 +84,13 @@
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </ChoiceBox>
+      <Label text="Animation:" GridPane.rowIndex="4">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="selectAnimationMenu" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button fx:id="setAnimateButton" mnemonicParsing="false" text="Animate" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <Button fx:id="exitProgram" alignment="CENTER" mnemonicParsing="false" onAction="#killProgram" text="Exit" GridPane.columnIndex="2" />
    </children>
 </GridPane>

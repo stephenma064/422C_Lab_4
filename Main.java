@@ -2,12 +2,14 @@ package assignment5;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,13 +19,6 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {
-            for (int i = 0; i < 20; i++) {
-                Critter.makeCritter("Craig");
-            }
-        } catch (InvalidCritterException e) {
-            System.out.println("dummy");
-        }
 		try {
             for (int i = 0; i < Params.world_width; i++) {
                 ColumnConstraints column = new ColumnConstraints(700 / Params.world_width);
@@ -58,7 +53,6 @@ public class Main extends Application {
             StackPane pane = new StackPane();
             Scene secondScene = new Scene(pane, 200, 200);
             secondStage.setScene(secondScene);
-//			secondStage.show();
 
             
 			Stage menu = new Stage();
@@ -67,7 +61,17 @@ public class Main extends Application {
             menu.setScene(scene1);
             menu.setTitle("Critter World");
             menu.show();
-            StatController statController = new StatController();
+            
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            Stage stat = new Stage();
+            GridPane statMenu = FXMLLoader.load(Main.class.getResource("StatController.fxml"));
+            Scene statScene = new Scene(statMenu);
+            stat.setTitle("Stats");	
+            stat.setX(primaryScreenBounds.getMinX() + primaryScreenBounds.getWidth() - 450);
+            stat.setY(primaryScreenBounds.getMinY() + primaryScreenBounds.getHeight() - 150);
+            stat.setScene(statScene);
+            stat.show();
+            
 
 		} catch(Exception e) {
 			e.printStackTrace();		
