@@ -16,7 +16,8 @@ import javafx.scene.paint.Color;
  * StephenCritter
  * 
  * This Stephen critter does not reproduce. However, this critter moves quickly, as it will run 
- * every move. This critter does not like Craig critters and LadiesCritter, and will get triggered
+ * every move. The critter will turn and change directions if there is a critter within a step from it. 
+ * This critter does not like Craig critters and LadiesCritter, and will get triggered
  * and always fight these critters. However, all other critters the Stephen critter will not 
  * fight.
  * 
@@ -40,8 +41,14 @@ public class Critter4 extends Critter{
     }
 
     public void doTimeStep() {
-        run(dir);
+    	if (this.look(this.dir, false) != null) {
+    		this.dir += 4;
+    		run(dir);
+    	} else {
+    		run(dir);
+    	}
     }
+    
     @Override
     public CritterShape viewShape() {
         return CritterShape.DIAMOND;

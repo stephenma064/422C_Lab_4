@@ -31,7 +31,6 @@
       <RowConstraints maxHeight="74.16862487792969" minHeight="10.0" prefHeight="43.7393798828125" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="112.63319396972656" minHeight="10.0" prefHeight="83.1072998046875" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="112.63319396972656" minHeight="10.0" prefHeight="41.938690185546875" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="143.66864013671875" minHeight="10.0" prefHeight="68.06130981445312" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <TextField fx:id="inputSeedField" prefHeight="27.0" prefWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -87,13 +86,6 @@
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <Label text="Animation:" GridPane.rowIndex="7">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ChoiceBox fx:id="selectAnimationMenu" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Button fx:id="setAnimateButton" mnemonicParsing="false" onAction="#animationHandler" text="Toggle" GridPane.columnIndex="2" GridPane.rowIndex="7" />
       <Button fx:id="exitProgram" alignment="CENTER" mnemonicParsing="false" onAction="#killProgram" text="Exit" GridPane.columnIndex="2" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="44.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="200.0" />
       <ImageView fitHeight="53.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">

@@ -56,6 +56,9 @@ public class Critter2 extends Critter {
 
 	@Override
 	public boolean fight(String oponent) {
+		if (this.look(this.direction, false) != null) {
+			return false;
+		}
 		if (this.tipsFedora) {
 			return false;
 		}

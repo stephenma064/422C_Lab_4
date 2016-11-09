@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="assignment5.StatController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment5.StatController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -18,7 +18,7 @@
   </rowConstraints>
    <children>
       <ChoiceBox fx:id="selectCritterStat" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-      <Text fx:id="critterStatText" strokeType="OUTSIDE" strokeWidth="0.0" text="To display stats, please select Critter" GridPane.rowIndex="2">
+      <Text fx:id="critterStatText" strokeType="OUTSIDE" strokeWidth="0.0" text="To display stats, please select Critter and hit Run Stats" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>

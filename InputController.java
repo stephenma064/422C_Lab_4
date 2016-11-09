@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
  *
  */
 public class InputController implements Initializable {
-
+	
 	private static String myPackage;
 	private static ScheduledService animation;
 	private static boolean isAnimationRunning = false;
@@ -35,11 +35,6 @@ public class InputController implements Initializable {
 	// Inject the components
 	@FXML
 	private Button exitProgram;
-
-	@FXML
-	private ChoiceBox<String> selectAnimationMenu;
-	@FXML
-	private Button setAnimateButton;
 
 	@FXML
 	private ChoiceBox<String> stepChoiceMenu;
@@ -69,10 +64,8 @@ public class InputController implements Initializable {
 				.observableArrayList(InputController.fetchCritterClasses());
 		addCritterCountMenu.setItems(list);
 		addCritterChoiceMenu.setItems(namesOfCritter);
-		selectAnimationMenu.setItems(animSteps);
 		stepChoiceMenu.setItems(steps);
 		stepChoiceMenu.setValue("1");
-		selectAnimationMenu.setValue("1");
 		// animationInit(Integer.parseInt(selectAnimationMenu.getValue()));
 	}
 
@@ -115,6 +108,7 @@ public class InputController implements Initializable {
 				// Invalid Critter
 			}
 		}
+		
 		Critter.displayWorld();
 	}
 
@@ -140,31 +134,34 @@ public class InputController implements Initializable {
 		// animation.setPeriod(Duration.seconds(1));
 	}
 
-	public void animationHandler() {
-		if (isAnimationRunning) {
-			stopAnimation();
-		} else {
-			startAnimation();
-		}
-	}
+//	public void animationHandler() {
+//		if (isAnimationRunning) {
+//			stopAnimation();
+//		} else {
+//			startAnimation();
+//		}
+//	}
 
-	private void startAnimation() {
-		int animSpeed = Integer.parseInt(selectAnimationMenu.getValue());
-
-		// Disable buttons
-		for (Node n : Main.mainMenu.getChildren()) {
-			String ID = n.getId();
-			if (ID != null) {
-				if (ID.equals("setAnimateButton")) {
-					Button b = (Button) n;
-					b.setText("Stop");
-				} else {
-					n.setOpacity(.5);
-					n.setDisable(true);
-				}
-			}
-		}
-	}
+//	private void startAnimation() {
+//		int animSpeed = Integer.parseInt(selectAnimationMenu.getValue());
+//
+//		// Disable buttons
+//		for (Node n : Main.mainMenu.getChildren()) {
+//			String ID = n.getId();
+//			if (ID != null) {
+//				if (ID.equals("setAnimateButton")) {
+//					Button b = (Button) n;
+//					b.setText("Stop");
+//				} else {
+//					n.setOpacity(.5);
+//					n.setDisable(true);
+//				}
+//			}
+//		}
+//		
+//		// Begin animation
+//		
+//	}
 
 	private void stopAnimation() {
 		animation.cancel();
