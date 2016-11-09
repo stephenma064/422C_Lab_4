@@ -132,11 +132,6 @@ public class InputController implements Initializable {
 
     public void cleanWorld() {
     	Critter.clearWorld();
-    	try {
-			Critter.worldTimeStep();
-		} catch (InvalidCritterException e) {
-			// Invalid Critter
-		}
     	Critter.displayWorld();
     }
 

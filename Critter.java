@@ -16,6 +16,7 @@ package assignment5;
 
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
@@ -484,6 +485,14 @@ public abstract class Critter {
                     Shape shape = getShape(c.viewShape());
                     shape.setFill(c.viewFillColor());
                     shape.setStroke(c.viewOutlineColor());
+                    s.getChildren().clear();
+                    s.getChildren().add(shape);
+                } else {
+                	Node a = Main.grid.getChildren().get(currentRow * Params.world_width + currentCol);
+                    StackPane s = (StackPane) a;
+                    Shape shape = getShape(CritterShape.SQUARE);
+                    shape.setFill(Color.WHITE);
+                    shape.setStroke(Color.BLACK);
                     s.getChildren().clear();
                     s.getChildren().add(shape);
                 }
