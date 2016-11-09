@@ -59,7 +59,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="addCritterMakeButton" mnemonicParsing="false" onAction="#addCritter" prefWidth="55.0" text="Make" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -96,5 +95,11 @@
       <Line endX="1000.0" startX="-500.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Line endX="100.0" startX="-1000.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Line endX="100.0" startX="-1000.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+         <children>
+            <Button fx:id="addCritterMakeButton" alignment="CENTER" mnemonicParsing="false" onAction="#addCritter" prefWidth="55.0" text="Make" />
+            <Button fx:id="clearWorldButton" mnemonicParsing="false" onAction="#cleanWorld" text="Clear World" />
+         </children>
+      </VBox>
    </children>
 </GridPane>

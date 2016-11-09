@@ -63,6 +63,9 @@ public class InputController implements Initializable {
     private TextField inputSeedField;
     @FXML
     private Button setSeedButton;
+    
+    @FXML
+    private Button clearWorldButton;
 
     @FXML
     @Override
@@ -127,64 +130,14 @@ public class InputController implements Initializable {
         Platform.exit();
     }
 
-    public void animationInit(int times) {
-        // animation = new ScheduledService() {
-        // @Override
-        // protected Task createTask() {
-        // for (int i = 0; i < times; i++) {
-        // try {
-        // Critter.worldTimeStep();
-        // Critter.displayWorld();
-        // } catch (InvalidCritterException e) {
-        // //foo
-        // }
-        // }
-        // return null;
-        // }
-        // };
-        // animation.setPeriod(Duration.seconds(1));
-    }
-
-//	public void animationHandler() {
-//		if (isAnimationRunning) {
-//			stopAnimation();
-//		} else {
-//			startAnimation();
-//		}
-//	}
-
-//	private void startAnimation() {
-//		int animSpeed = Integer.parseInt(selectAnimationMenu.getValue());
-//
-//		// Disable buttons
-//		for (Node n : Main.mainMenu.getChildren()) {
-//			String ID = n.getId();
-//			if (ID != null) {
-//				if (ID.equals("setAnimateButton")) {
-//					Button b = (Button) n;
-//					b.setText("Stop");
-//				} else {
-//					n.setOpacity(.5);
-//					n.setDisable(true);
-//				}
-//			}
-//		}
-//		
-//		// Begin animation
-//		
-//	}
-
-    private void stopAnimation() {
-        animation.cancel();
-        for (Node n : Main.mainMenu.getChildren()) {
-            if (n.getId().equals("setAnimateButton")) {
-                Button b = (Button) n;
-                b.setText("Start");
-            } else {
-                n.setOpacity(0.0);
-                n.setDisable(false);
-            }
-        }
+    public void cleanWorld() {
+    	Critter.clearWorld();
+    	try {
+			Critter.worldTimeStep();
+		} catch (InvalidCritterException e) {
+			// Invalid Critter
+		}
+    	Critter.displayWorld();
     }
 
     /**
