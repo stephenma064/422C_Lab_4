@@ -1,3 +1,16 @@
+/* CRITTERS GUI <Algae.java>
+ * EE422C Project 4b submission by
+ * Replace <...> with your actual data.
+ * Stephen Ma
+ * szm99
+ * 16480
+ * Slip days used: <1>
+ * Eric Su
+ * es25725
+ * 16475
+ * Slip days used: <2>
+ * Fall 2016
+ */
 package assignment5;
 /*
  * Do not change this file.

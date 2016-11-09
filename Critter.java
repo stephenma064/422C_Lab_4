@@ -1,11 +1,15 @@
 // Critter.java
-/** CRITTERS 
- * EE422C Project 4 submission by
- * Stephen Ma szm99
- * Eric Su es25725
- * 
- * Stephen Ma Slip days used: <1>
- * Eric Su Slip days used: <2>
+/* CRITTERS GUI <Critter.java>
+ * EE422C Project 4b submission by
+ * Replace <...> with your actual data.
+ * Stephen Ma
+ * szm99
+ * 16480
+ * Slip days used: <1>
+ * Eric Su
+ * es25725
+ * 16475
+ * Slip days used: <2>
  * Fall 2016
  */
 package assignment5;
